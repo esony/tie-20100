@@ -21,7 +21,7 @@ class Datastructure
             unsigned int enlistingYear, std::string shirtColor,
             std::string name);
 
-    // Finds and prints person with index
+    // Prints sorted crew list
     void print();
 
     // Finds and prints youngest person
@@ -41,7 +41,7 @@ class Datastructure
     // Assignment operator is forbidden
     Datastructure& operator=(const Datastructure&) = delete;
 
-private:
+    private:
 
     // Add your own implementation here
 
