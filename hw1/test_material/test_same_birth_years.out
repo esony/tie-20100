@@ -1,0 +1,28 @@
+> R test_same_birth_years.tst
+> P
+Lieutenant Worf, Born: 2330, Joined: 2331, Gold
+Lieutenant Jadzia Dax, Born: 2330, Joined: 2335, Red
+MedicalOfficer Julian Bashir, Born: 2330, Joined: 2337, Blue
+Commander Kira Nerys, Born: 2330, Joined: 2339, Red
+Captain Benjamin Sisko, Born: 2330, Joined: 2341, Gold
+Constable Odo , Born: 2330, Joined: 2342, Red
+Barkeep Quark, Born: 2330, Joined: 2346, Blue
+Lieutenant Ezri Dax, Born: 2330, Joined: 2349, Blue
+PettyOfficer Miles O'Brien, Born: 2330, Joined: 2350, Blue
+Reporter Jake Sisko, Born: 2330, Joined: 2360, Red
+> X old
+Lieutenant Worf, Gold
+> X young
+Reporter Jake Sisko, Red
+> P
+Lieutenant Worf, Born: 2330, Joined: 2331, Gold
+Lieutenant Jadzia Dax, Born: 2330, Joined: 2335, Red
+MedicalOfficer Julian Bashir, Born: 2330, Joined: 2337, Blue
+Commander Kira Nerys, Born: 2330, Joined: 2339, Red
+Captain Benjamin Sisko, Born: 2330, Joined: 2341, Gold
+Constable Odo , Born: 2330, Joined: 2342, Red
+Barkeep Quark, Born: 2330, Joined: 2346, Blue
+Lieutenant Ezri Dax, Born: 2330, Joined: 2349, Blue
+PettyOfficer Miles O'Brien, Born: 2330, Joined: 2350, Blue
+Reporter Jake Sisko, Born: 2330, Joined: 2360, Red
+> Q

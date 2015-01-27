@@ -1,0 +1,25 @@
+body{
+	width: 900px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+table{
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+pre{
+	text-align: left;
+    padding: 0.1em 0.5em 0.3em 0.7em;
+    border-left: 11px solid #ccc;
+    margin: 1.7em 0 1.7em 0.3em;x
+}
+
+#performance div{
+	display: inline-block;
+}
+#performance  img{
+	width: 400px;
+}

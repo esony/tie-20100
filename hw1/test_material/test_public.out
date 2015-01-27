@@ -1,0 +1,26 @@
+> A Captain 2233 2250 Gold James T. Kirk
+> A Commander 2230 2250 Blue Spock
+> A Commander 2222 2241 Red Montgomery Scott
+> P
+Commander Montgomery Scott, Born: 2222, Joined: 2241, Red
+Commander Spock, Born: 2230, Joined: 2250, Blue
+Captain James T. Kirk, Born: 2233, Joined: 2250, Gold
+> A MedicalOfficer 2227 2251 Blue Leonard McCoy
+> A Lieutenant 2237 2255 Gold Hikaru Sulu
+> A Lieutenant 2239 2257 Red Nyota Uhura
+> A Lieutenant 2232 2250 Gold Lee Kelso
+> A Ensign 2245 2263 Gold Pavel Chekov
+> P
+Commander Montgomery Scott, Born: 2222, Joined: 2241, Red
+Commander Spock, Born: 2230, Joined: 2250, Blue
+Lieutenant Lee Kelso, Born: 2232, Joined: 2250, Gold
+Captain James T. Kirk, Born: 2233, Joined: 2250, Gold
+MedicalOfficer Leonard McCoy, Born: 2227, Joined: 2251, Blue
+Lieutenant Hikaru Sulu, Born: 2237, Joined: 2255, Gold
+Lieutenant Nyota Uhura, Born: 2239, Joined: 2257, Red
+Ensign Pavel Chekov, Born: 2245, Joined: 2263, Gold
+> X young
+Ensign Pavel Chekov, Gold
+> X old
+Commander Montgomery Scott, Red
+> Q
