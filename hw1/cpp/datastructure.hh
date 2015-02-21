@@ -5,6 +5,7 @@
 #define DATASTRUCTURE_HH
 
 #include <string>
+#include <vector>
 
 const std::string SEPARATOR = " ";
 
@@ -53,8 +54,17 @@ class Datastructure
         unsigned int enlistingYear;
         std::string shirtColor;
         std::string name;
-
     };
+
+    vector<Henkilo> tietokanta;
+    Henkilo* nuorin = nullptr;
+    Henkilo* vanhin = nullptr;
+
+    void set_vanhin_nuor
+
+    int median(std::vector<Henkilo> tietokanta, int vasen, int oikea);
+    void sort(std::vector<Henkilo>& tietokanta, int vasen, int oikea);
+    bool onko_sortattu(std::vector<Henkilo> tietokanta);
 
 };
 
