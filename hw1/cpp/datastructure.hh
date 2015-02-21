@@ -41,9 +41,20 @@ class Datastructure
     // Assignment operator is forbidden
     Datastructure& operator=(const Datastructure&) = delete;
 
+
+
     private:
 
     // Add your own implementation here
+
+    struct Henkilo {
+        std::string rank;
+        unsigned int birthYear;
+        unsigned int enlistingYear;
+        std::string shirtColor;
+        std::string name;
+
+    };
 
 };
 
