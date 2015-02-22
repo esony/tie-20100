@@ -93,19 +93,19 @@ void Datastructure::print(){
 // Lista quicksortataan ensin jarjestykseen ja
 // siivotaan sitten samana vuonna liittyneet
 void Datastructure::quicksort(){
-/*    if (onko_sortattu()){
+    if (onko_sortattu()){
        // siistiminen();
         return;
 
     } else {
-*/
+
         int vasen = 0;
         int oikea = tietokanta.size() - 1;
 
         sort(vasen, oikea);
         //siistiminen();
         return;
-  //  }
+    }
 }
 
 // Varsinaisen sorttauksen tekeva funktio
@@ -159,7 +159,7 @@ void Datastructure::sort(int vasen, int oikea){
     }
     return;
 }
-
+/*
 // Funktio siistii listan syntymavuoden perusteella insertionilla
 void Datastructure::ika_insertion(int vasen, int oikea){
 
@@ -254,7 +254,7 @@ void Datastructure::qsort_ika(int vasen, int oikea){
     }
     return;
 }
-
+*/
 
 int Datastructure::median(int vasen, int oikea){
 
@@ -296,6 +296,12 @@ bool Datastructure::onko_sortattu(){
         if (tutkittava1->enlistingYear > tutkittava2->enlistingYear){
             return 0;
         }
+        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
+            if (tutkittava1->birthYear > tutkittava2->birthYear){
+                return 0;
+            }
+        }
+
         n++;
     }
     return 1;
