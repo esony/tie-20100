@@ -93,19 +93,19 @@ void Datastructure::print(){
 // Lista quicksortataan ensin jarjestykseen ja
 // siivotaan sitten samana vuonna liittyneet
 void Datastructure::quicksort(){
-    if (onko_sortattu()){
-        siistiminen();
+/*    if (onko_sortattu()){
+       // siistiminen();
         return;
 
     } else {
-
+*/
         int vasen = 0;
         int oikea = tietokanta.size() - 1;
 
         sort(vasen, oikea);
-        siistiminen();
+        //siistiminen();
         return;
-    }
+  //  }
 }
 
 // Varsinaisen sorttauksen tekeva funktio
@@ -114,6 +114,7 @@ void Datastructure::sort(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
     Henkilo n;
+    Henkilo m;
 
     // Etsitaan mediaanin paikka ja suuruus
     int x = median(vasen, oikea);
@@ -131,10 +132,21 @@ void Datastructure::sort(int vasen, int oikea){
         }
        if (i <= j){
             n = tietokanta[i];
-            tietokanta[i] = tietokanta[j];
-            tietokanta[j] = n;
+            m = tietokanta[j];
+
+            //Tarkastetaan onko samana vuonna liittyneet
+            if (n.enlistingYear == m.enlistingYear){
+                if (n.birthYear > m.birthYear){
+                    tietokanta[i] = tietokanta[j];
+                    tietokanta[j] = n;
+                }
+            } else {
+                tietokanta[i] = tietokanta[j];
+                tietokanta[j] = n;
+            }
             i++;
             j--;
+
        }
     }
     //Jarjestetaan alkiot mediaanin vasemmalla puolella
