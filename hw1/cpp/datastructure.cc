@@ -82,7 +82,6 @@ void Datastructure::add(std::string rank, unsigned int birthYear,
 
     set_nuorin_vanhin(uusi);
     tietokanta.push_back(uusi);
-    on_sortattu = false;
     return;
 
 }
@@ -210,7 +209,6 @@ int Datastructure::median(int vasen, int oikea){
 
 // Funktio siivoaa samana vuonna liittyneet
 void Datastructure::siistiminen(){
-    Henkilo s;
     Henkilo* tutkittava1 = nullptr;
     Henkilo* tutkittava2 = nullptr;
     vector<Henkilo>::size_type n = 0;
