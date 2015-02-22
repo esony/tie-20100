@@ -1,11 +1,14 @@
+/* .prosta
+    main.cc \
+    datastructure.cc
+    */
 
+#include <iostream>
 #include "datastructure.hh"
 
 using namespace std;
 
-
-Datastructure::Datastructure() {
-
+Datastructure::Datastructure(): tietokanta(), nuorin(nullptr), vanhin (nullptr){
 }
 
 Datastructure::~Datastructure() {
@@ -16,29 +19,36 @@ Datastructure::~Datastructure() {
 void Datastructure::set_nuorin_vanhin(Henkilo uusi){
 
     //Jos tietokanta tyhja, on lisatty alkio seka nuorin etta vanhin
-    if tietokanta.empty(){
+    if (tietokanta.empty()){
         nuorin = &uusi;
         vanhin = &uusi;
+        cout << "Tallennettu vanhimmaksi 1" << endl;
+
         return;
 
     // Tarkistetaan, onko uusi alkio nuorin
     // tai vanhin ja pannaan muistiin, jos on
 
-    } else if (uusi.enlistingYear = nuorin->enlistingYear){
+    } else if (uusi.enlistingYear == nuorin->enlistingYear){
         if (uusi.birthYear > nuorin->birthYear){
             nuorin = &uusi;
+            cout << "Tallennettu nuorimmaksi 1" << endl;
         }
 
     } else if (uusi.enlistingYear > nuorin->enlistingYear) {
         nuorin = &uusi;
+        cout << "Tallennettu nuorimmaksi 2" << endl;
 
-    } else if (uusi.enlistingYear = vanhin){
+    } else if (uusi.enlistingYear == vanhin->enlistingYear){
         if (uusi.birthYear < vanhin->birthYear) {
             vanhin = &uusi;
+            cout << "Tallennettu vanhimmaksi 1" << endl;
         }
 
     } else if (uusi.enlistingYear < vanhin->enlistingYear){
         vanhin = &uusi;
+        cout << "Tallennettu vanhimmaksi 2" << endl;
+
     }
 }
 
@@ -61,24 +71,40 @@ void Datastructure::add(std::string rank, unsigned int birthYear,
 
 }
 
-// Prints sorted crew list
-void Datastructure::print(){
-
-}
-
-// Finds and prints youngest person
 //Arvo nimi, Born: vuosi, Joined: vuosi, paidanväri
 //Esim:
 //Captain James T. Kirk, Born: 2233, Joined: 2250, Gold
 
+// Prints sorted crew list
+void Datastructure::print(){
+
+    Henkilo* tulostettava = nullptr;
+    vector<Henkilo>::size_type n = 0;
+
+    while (n < tietokanta.size()){
+        tulostettava = &tietokanta.at(n);
+
+        cout << tulostettava->rank
+             << " " << tulostettava->name
+             << ", Born: " << tulostettava->birthYear
+             << ", Joined: " << tulostettava->enlistingYear
+             << ", " << tulostettava->shirtColor << endl;
+        ++n;
+    }
+
+}
+
+// Finds and prints youngest person
+
 void Datastructure::youngest(){
     if (nuorin == nullptr){
+        cout << "Nuorinta ei oo" << endl;
         return;
     } else {
-      cout << nuorin->name << ", Born: " << nuorin->birthYear
-           << ", Joined: " << nuorin->enlistingYear
-           << ", " << nuorin->shirtColor << endl;
+      cout << "Nuorin tulloo" << endl;
+        cout << nuorin->name << ", " << nuorin->shirtColor;
     }
+    return;
 }
 
 // Finds and prints oldest person
@@ -86,20 +112,22 @@ void Datastructure::oldest(){
     if (vanhin == nullptr){
         return;
     } else {
-      cout << vanhin->name << ", Born: " << vanhin->birthYear
-           << ", Joined: " << vanhin->enlistingYear
-           << ", " << vanhin->shirtColor << endl;
+      cout << vanhin->name << ", " << vanhin->shirtColor;
     }
+    return;
 }
 
 // Empties the datastructure
 void Datastructure::empty(){
-
+    nuorin = nullptr;
+    vanhin = nullptr;
+    tietokanta.clear();
+    return;
 }
 
 // returns the size of the datastructure
 size_t Datastructure::size(){
-
+    return tietokanta.size();
 }
 
 

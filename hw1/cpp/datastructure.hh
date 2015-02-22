@@ -56,12 +56,13 @@ class Datastructure
         std::string name;
     };
 
-    vector<Henkilo> tietokanta;
-    Henkilo* nuorin = nullptr;
-    Henkilo* vanhin = nullptr;
+    //Tietokanta, vanhin ja nuorin
+    std::vector<Henkilo> tietokanta;
+    Henkilo* nuorin;
+    Henkilo* vanhin;
 
-    void set_vanhin_nuor
-
+    //Funktiot
+    void set_nuorin_vanhin(Henkilo uusi);
     int median(std::vector<Henkilo> tietokanta, int vasen, int oikea);
     void sort(std::vector<Henkilo>& tietokanta, int vasen, int oikea);
     bool onko_sortattu(std::vector<Henkilo> tietokanta);
