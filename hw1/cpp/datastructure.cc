@@ -146,12 +146,11 @@ void Datastructure::sort(int vasen, int oikea){
         sort(i, oikea);
     }
     return;
-
-    return;
 }
 
 // Funktio siistii quicksortatun listan samana vuonna liittyneet
 // henkilot insertionilla
+/*
 void Datastructure::siistiminen(){
     Henkilo s;
     Henkilo* tutkittava1 = nullptr;
@@ -193,6 +192,79 @@ void Datastructure::siistiminen(){
         n = m;
         }
         n++;
+    }
+    return;
+}
+*/
+//Funktio siivoaa samana vuonna liittyneet guicksortilla
+void Datastructure::siistiminen(){
+    Henkilo s;
+    Henkilo* tutkittava1 = nullptr;
+    Henkilo* tutkittava2 = nullptr;
+    vector<Henkilo>::size_type n = 0;
+    vector<Henkilo>::size_type m = 0;
+
+    while (n + 1 < tietokanta.size()){
+
+        tutkittava1 = &tietokanta[n];
+        tutkittava2 = &tietokanta[n+1];
+
+        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
+           m = n + 1;
+
+           //Etsitaan kaikki samana vuonna liittyneet
+           //Ensimmainen paikalla n, viimeinen m
+
+           while (m + 1 < tietokanta.size() &&
+                  tutkittava1->enlistingYear == tutkittava2->enlistingYear){
+               tutkittava1 = &tietokanta[m];
+               tutkittava2 = &tietokanta[m+1];
+               m++;
+           }
+           //Sortataan quicksortilla
+           qsort_ika(n, m);
+
+           n = m;
+        }
+        n++;
+    }
+    return;
+}
+
+void Datastructure::qsort_ika(int vasen, int oikea){
+    int i = vasen;
+    int j = oikea;
+    Henkilo n;
+
+    // Etsitaan mediaanin paikka ja suuruus
+    int x = median(vasen, oikea);
+    unsigned int mediaani = tietokanta[x].birthYear;
+
+    // Siirretaan suuremmat mediaanin oikealle ja pienemmat
+    // vasemmalle puolelle
+
+    while (i < j){
+        while (tietokanta[i].birthYear < mediaani ) {
+            i++;
+        }
+        while (tietokanta[j].birthYear > mediaani) {
+            j--;
+        }
+       if (i <= j){
+            n = tietokanta[i];
+            tietokanta[i] = tietokanta[j];
+            tietokanta[j] = n;
+            i++;
+            j--;
+       }
+    }
+    //Jarjestetaan alkiot mediaanin vasemmalla puolella
+    if (vasen < j){
+    sort(vasen, j);
+    }
+    //Jarjestetaan alkiot mediaanin oikealla puolella
+    if (i < oikea) {
+        sort(i, oikea);
     }
     return;
 }

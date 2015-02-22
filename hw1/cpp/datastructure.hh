@@ -68,6 +68,7 @@ class Datastructure
     void sort(int vasen, int oikea);
     bool onko_sortattu();
     void siistiminen();
+    void qsort_ika(int vasen, int oikea);
 
 };
 
