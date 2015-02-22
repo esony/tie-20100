@@ -48,12 +48,12 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
     // Katsotaan onko viimeisin lisatty alkiokin on jarjestyksessa
     Henkilo* viimeinen = &tietokanta.back();
 
-    if (viimeinen->enlistingYear > uusi.enlistingYear){
+    if (viimeinen->enlistingYear < uusi.enlistingYear && on_sortattu){
         on_sortattu = true;
         return;
 
     } else if (viimeinen->enlistingYear == uusi.enlistingYear){
-        if (viimeinen->birthYear > uusi.birthYear){
+        if (viimeinen->birthYear < uusi.birthYear && on_sortattu){
             on_sortattu = true;
             return;
 
