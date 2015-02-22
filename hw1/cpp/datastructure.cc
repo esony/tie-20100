@@ -148,8 +148,7 @@ void Datastructure::sort(int vasen, int oikea){
     return;
 }
 
-// Funktio siistii quicksortatun listan samana vuonna liittyneet
-// henkilot insertionilla
+// Funktio siistii listan syntymavuoden perusteella insertionilla
 void Datastructure::ika_insertion(int vasen, int oikea){
 
     Henkilo s;
@@ -159,7 +158,8 @@ void Datastructure::ika_insertion(int vasen, int oikea){
        while (i < oikea){
            j = i;
            s = tietokanta[i];
-           while (j >= vasen + 1 && tietokanta[j - 1].birthYear > s.birthYear){
+           while (j >= vasen + 1 &&
+                  tietokanta[j - 1].birthYear > s.birthYear){
                tietokanta[j] = tietokanta[j - 1];
                j--;
            }
@@ -195,8 +195,8 @@ void Datastructure::siistiminen(){
                tutkittava2 = &tietokanta[m+1];
                m++;
            }
-           //Sortataan quicksortilla
-           qsort_ika(n, m);
+           //Sortataan samana vuonna liittyneet
+           qsort_ika(n, m - 1);
 
            n = m;
         }
@@ -295,7 +295,8 @@ void Datastructure::youngest(){
     if (nuorin.name == ""){
         return;
     } else {
-        cout << nuorin.rank << " " << nuorin.name << ", " << nuorin.shirtColor << endl;
+        cout << nuorin.rank << " " << nuorin.name
+             << ", " << nuorin.shirtColor << endl;
     }
     return;
 }
@@ -305,7 +306,8 @@ void Datastructure::oldest(){
     if (vanhin.name == ""){
         return;
     } else {
-      cout << vanhin.rank << " " << vanhin.name << ", " << vanhin.shirtColor << endl;
+      cout << vanhin.rank << " " << vanhin.name
+           << ", " << vanhin.shirtColor << endl;
     }
     return;
 }
