@@ -223,7 +223,7 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan quicksortilla
-           qsort_ika(n, m - 1);
+           qsort_ika(n, m);
 
            n = m;
         }
