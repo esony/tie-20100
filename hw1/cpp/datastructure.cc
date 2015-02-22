@@ -150,54 +150,27 @@ void Datastructure::sort(int vasen, int oikea){
 
 // Funktio siistii quicksortatun listan samana vuonna liittyneet
 // henkilot insertionilla
-/*
-void Datastructure::siistiminen(){
+void Datastructure::ika_insertion(int vasen, int oikea){
+
     Henkilo s;
-    Henkilo* tutkittava1 = nullptr;
-    Henkilo* tutkittava2 = nullptr;
-    vector<Henkilo>::size_type n = 0;
-    vector<Henkilo>::size_type m = 0;
+    int i = vasen + 1;
+    int j = oikea;
 
-    while (n + 1 < tietokanta.size()){
-
-        tutkittava1 = &tietokanta[n];
-        tutkittava2 = &tietokanta[n+1];
-
-        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
-           m = n + 1;
-
-           //Etsitaan kaikki samana vuonna liittyneet
-           //Ensimmainen paikalla n, viimeinen m
-           while (m + 1 < tietokanta.size() &&
-                  tutkittava1->enlistingYear == tutkittava2->enlistingYear){
-               tutkittava1 = &tietokanta[m];
-               tutkittava2 = &tietokanta[m+1];
-               m++;
+       while (i < oikea){
+           j = i;
+           s = tietokanta[i];
+           while (j >= vasen + 1 && tietokanta[j - 1].birthYear > s.birthYear){
+               tietokanta[j] = tietokanta[j - 1];
+               j--;
            }
-           vector<Henkilo>::size_type i = n + 1;
-           vector<Henkilo>::size_type j = i;
-
-           //Insertion sorttaus listan alkioille
-           while (i < m){
-               j = i;
-               s = tietokanta[i];
-               while (j >= n + 1 && tietokanta[j - 1].birthYear > s.birthYear){
-                   tietokanta[j] = tietokanta[j - 1];
-                   j--;
-               }
-               tietokanta[j] = s;
-               i++;
-            }
-
-        n = m;
+           tietokanta[j] = s;
+           i++;
         }
-        n++;
-    }
     return;
 }
-*/
 
-//Funktio siivoaa samana vuonna liittyneet guicksortilla
+
+//Funktio siivoaa samana vuonna liittyneet
 void Datastructure::siistiminen(){
     Henkilo s;
     Henkilo* tutkittava1 = nullptr;
@@ -237,29 +210,9 @@ void Datastructure::qsort_ika(int vasen, int oikea){
     int j = oikea;
     Henkilo n;
 
-    // Etsitaan mediaanin suuruus
-    unsigned int mediaani;
-
-    int keskimmainen = (vasen-oikea)/2 + oikea;
-    unsigned int a = tietokanta[vasen].birthYear;
-    unsigned int b = tietokanta[keskimmainen].birthYear;
-    unsigned int c = tietokanta[oikea].birthYear;
-
-    // Mediaani a
-        if ( (b <= a && a <= c) || (c <= a && a <= b)){
-            mediaani = tietokanta[vasen].birthYear;
-        }
-
-    // Mediaani b
-        else if ( (a <= b && b <= c) || (c <= b && b <= a)){
-            mediaani = tietokanta[keskimmainen].birthYear;
-        }
-
-    // Mediaani c
-        else {
-            mediaani = tietokanta[oikea].birthYear;
-        }
-
+    // Valitaan mediaaniksi keskimmainen alkio
+    unsigned int mediaani =
+            tietokanta[(vasen-oikea)/2 + oikea].birthYear;
 
     // Siirretaan suuremmat mediaanin oikealle ja pienemmat
     // vasemmalle puolelle
