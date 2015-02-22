@@ -60,6 +60,7 @@ class Datastructure
     std::vector<Henkilo> tietokanta;
     Henkilo nuorin;
     Henkilo vanhin;
+    bool on_sortattu = false;
 
     //Funktiot
     void quicksort();

@@ -60,6 +60,7 @@ void Datastructure::add(std::string rank, unsigned int birthYear,
 
     set_nuorin_vanhin(uusi);
     tietokanta.push_back(uusi);
+    on_sortattu = false;
     return;
 
 }
@@ -93,7 +94,7 @@ void Datastructure::print(){
 // Lista quicksortataan ensin jarjestykseen ja
 // siivotaan sitten samana vuonna liittyneet
 void Datastructure::quicksort(){
-    if (onko_sortattu()){
+    if (on_sortattu){
         return;
 
     } else {
@@ -103,6 +104,7 @@ void Datastructure::quicksort(){
 
         sort(vasen, oikea);
         siistiminen();
+        on_sortattu = true;
         return;
     }
 }
@@ -334,6 +336,7 @@ void Datastructure::empty(){
     nuorin.name = "";
     vanhin.name = "";
     tietokanta.clear();
+    on_sortattu = false;
     return;
 }
 
