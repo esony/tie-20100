@@ -89,13 +89,10 @@ void Datastructure::print(){
 
 // Listan jarjestelyn aloittava funktio
 void Datastructure::quicksort(){
-    cout << "Onko sortattu?" << endl;
     if (onko_sortattu()){
-        cout << "On sortattu" << endl;
         return;
 
     } else {
-        cout << "Sortataan" << endl;
 
         int vasen = 0;
         int oikea = tietokanta.size() - 1;
@@ -180,7 +177,7 @@ bool Datastructure::onko_sortattu(){
     vector<Henkilo>::size_type n = 0;
 
     while (n + 1 < tietokanta.size()){
-        cout << n << endl;
+
         tutkittava1 = &tietokanta.at(n);
         tutkittava2 = &tietokanta.at(n+1);
 
