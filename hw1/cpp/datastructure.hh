@@ -62,10 +62,11 @@ class Datastructure
     Henkilo vanhin;
 
     //Funktiot
+    void quicksort();
     void set_nuorin_vanhin(Henkilo uusi);
-    int median(std::vector<Henkilo> tietokanta, int vasen, int oikea);
-    void sort(std::vector<Henkilo>& tietokanta, int vasen, int oikea);
-    bool onko_sortattu(std::vector<Henkilo> tietokanta);
+    int median(int vasen, int oikea);
+    void sort(int vasen, int oikea);
+    bool onko_sortattu();
 
 };
 

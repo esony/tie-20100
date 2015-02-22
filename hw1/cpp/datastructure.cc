@@ -1,7 +1,3 @@
-/* .prosta
-    main.cc \
-    datastructure.cc
-    */
 
 #include <iostream>
 #include "datastructure.hh"
@@ -78,6 +74,8 @@ void Datastructure::add(std::string rank, unsigned int birthYear,
 // Prints sorted crew list
 void Datastructure::print(){
 
+    quicksort();
+
     Henkilo* tulostettava = nullptr;
     vector<Henkilo>::size_type n = 0;
 
@@ -92,6 +90,47 @@ void Datastructure::print(){
         ++n;
     }
 
+}
+
+// Listan jarjestelyn aloittava funktio
+void Datastructure::quicksort(){
+    if (onko_sortattu()){
+        return;
+
+    } else {
+        int vasen = 0;
+        int oikea = tietokanta.size() - 1;
+
+        sort(vasen, oikea);
+        return;
+    }
+}
+
+void Datastructure::sort(vasen, oikea){
+
+    return;
+}
+
+
+// Funktio tarkastaa onko lista
+// valmiiksi palvelusaikajarjestyksessa
+
+bool Datastructure::onko_sortattu(){
+    vector<int>::size_type i = 0;
+
+    Henkilo* tutkittava1 = nullptr;
+    Henkilo* tutkittava2 = nullptr;
+    vector<Henkilo>::size_type n = 0;
+
+    while (n < tietokanta.size() - 1){
+        tutkittava1 = &tietokanta.at(n);
+        tutkittava2 = &tietokanta.at(n+1);
+
+        if (tutkittava1->enlistingYear > tutkittava2->enlistingYear){
+            return 0;
+        }
+    }
+    return 1;
 }
 
 // Finds and prints youngest person
