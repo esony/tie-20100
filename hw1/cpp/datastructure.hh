@@ -58,8 +58,8 @@ class Datastructure
 
     //Tietokanta, vanhin ja nuorin
     std::vector<Henkilo> tietokanta;
-    Henkilo* nuorin;
-    Henkilo* vanhin;
+    Henkilo nuorin;
+    Henkilo vanhin;
 
     //Funktiot
     void set_nuorin_vanhin(Henkilo uusi);
