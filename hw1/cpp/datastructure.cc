@@ -87,9 +87,12 @@ void Datastructure::print(){
 
 }
 
-// Listan jarjestelyn aloittava funktio
+// Listan jarjestelyn aloittava ja viimeisteleva funktio
+// Lista quicksortataan ensin jarjestykseen ja
+// siivotaan sitten samana vuonna liittyneet
 void Datastructure::quicksort(){
     if (onko_sortattu()){
+        siistiminen();
         return;
 
     } else {
@@ -98,6 +101,7 @@ void Datastructure::quicksort(){
         int oikea = tietokanta.size() - 1;
 
         sort(vasen, oikea);
+        siistiminen();
         return;
     }
 }
@@ -141,6 +145,55 @@ void Datastructure::sort(int vasen, int oikea){
     }
     return;
 
+    return;
+}
+
+// Funktio siistii quicksortatun listan samana vuonna liittyneet
+// henkilot insertionilla
+void Datastructure::siistiminen(){
+    cout << "insertion" << endl;
+    Henkilo s;
+    Henkilo* tutkittava1 = nullptr;
+    Henkilo* tutkittava2 = nullptr;
+    vector<Henkilo>::size_type n = 0;
+    vector<Henkilo>::size_type m = 0;
+
+    while (n + 1 < tietokanta.size()){
+
+        tutkittava1 = &tietokanta[n];
+        tutkittava2 = &tietokanta[n+1];
+
+        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
+           m = n + 1;
+
+           //Etsitaan kaikki samana vuonna liittyneet
+           //Ensimmainen paikalla n, viimeinen m
+           while (m + 1 < tietokanta.size() &&
+                  tutkittava1->enlistingYear == tutkittava2->enlistingYear){
+               tutkittava1 = &tietokanta[m];
+               tutkittava2 = &tietokanta[m+1];
+               m++;
+           }
+           vector<Henkilo>::size_type i = n + 1;
+           vector<Henkilo>::size_type j = i;
+
+           //Insertion sorttaus listan alkioille
+           while (i < m){
+               j = i;
+               s = tietokanta[i];
+               while (j >= n + 1 && tietokanta[j - 1].birthYear > s.birthYear){
+                   tietokanta[j] = tietokanta[j - 1];
+                   cout << tietokanta[j].birthYear << endl;
+                   j--;
+               }
+               tietokanta[j] = s;
+               i++;
+            }
+
+        n = m;
+        }
+        n++;
+    }
     return;
 }
 
@@ -195,7 +248,7 @@ void Datastructure::youngest(){
     if (nuorin.name == ""){
         return;
     } else {
-        cout << nuorin.name << ", " << nuorin.shirtColor << endl;
+        cout << nuorin.rank << " " << nuorin.name << ", " << nuorin.shirtColor << endl;
     }
     return;
 }
@@ -205,7 +258,7 @@ void Datastructure::oldest(){
     if (vanhin.name == ""){
         return;
     } else {
-      cout << vanhin.name << ", " << vanhin.shirtColor << endl;
+      cout << vanhin.rank << " " << vanhin.name << ", " << vanhin.shirtColor << endl;
     }
     return;
 }

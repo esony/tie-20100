@@ -67,6 +67,7 @@ class Datastructure
     int median(int vasen, int oikea);
     void sort(int vasen, int oikea);
     bool onko_sortattu();
+    void siistiminen();
 
 };
 
