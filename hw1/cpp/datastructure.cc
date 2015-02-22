@@ -94,7 +94,7 @@ void Datastructure::print(){
 // Lista quicksortataan ensin jarjestykseen ja
 // siivotaan sitten samana vuonna liittyneet
 void Datastructure::quicksort(){
-    if (on_sortattu){
+    if (on_sortattu || tietokanta.empty()){
         return;
 
     } else {
@@ -217,6 +217,7 @@ void Datastructure::siistiminen(){
     }
     return;
 }
+
 /*
 void Datastructure::qsort_ika(int vasen, int oikea){
     int i = vasen;
@@ -282,7 +283,7 @@ int Datastructure::median(int vasen, int oikea){
 
 // Funktio tarkastaa onko lista
 // valmiiksi palvelusaikajarjestyksessa
-
+/*
 bool Datastructure::onko_sortattu(){
 
     Henkilo* tutkittava1 = nullptr;
@@ -307,7 +308,7 @@ bool Datastructure::onko_sortattu(){
     }
     return 1;
 }
-
+*/
 // Finds and prints youngest person
 
 void Datastructure::youngest(){
