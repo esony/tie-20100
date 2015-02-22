@@ -214,7 +214,7 @@ void Datastructure::siistiminen(){
            //Sortataan samana vuonna liittyneet
            ika_insertion(n, m - 1);
            //qsort_ika(n, m - 1);
-           n = m - 1;
+           n = m;
         }
         n++;
     }
@@ -229,7 +229,7 @@ void Datastructure::ika_insertion(int vasen, int oikea){
     int i = vasen + 1;
     int j = oikea;
 
-       while (i < oikea){
+       while (i <= oikea){ // ehka <= ???
            j = i;
            s = tietokanta[i];
            while (j >= vasen + 1 &&
