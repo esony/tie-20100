@@ -161,29 +161,32 @@ void Datastructure::sort(int vasen, int oikea){
     return;
 }
 
-// Funktio siistii listan syntymavuoden perusteella insertionilla
-void Datastructure::ika_insertion(int vasen, int oikea){
+// Funktio etsii quicksorttia varten mediaanin
+// kolmen luvun otoksesta
+int Datastructure::median(int vasen, int oikea){
 
-    Henkilo s;
-    int i = vasen + 1;
-    int j = oikea;
+    int keskimmainen = (vasen-oikea)/2 + oikea;
+    unsigned int a = tietokanta[vasen].enlistingYear;
+    unsigned int b = tietokanta[keskimmainen].enlistingYear;
+    unsigned int c = tietokanta[oikea].enlistingYear;
 
-       while (i < oikea){
-           j = i;
-           s = tietokanta[i];
-           while (j >= vasen + 1 &&
-                  tietokanta[j - 1].birthYear > s.birthYear){
-               tietokanta[j] = tietokanta[j - 1];
-               j--;
-           }
-           tietokanta[j] = s;
-           i++;
+    // Mediaani a
+        if ( (b <= a && a <= c) || (c <= a && a <= b)){
+            return vasen;
         }
-    return;
+
+    // Mediaani b
+        else if ( (a <= b && b <= c) || (c <= b && b <= a)){
+            return keskimmainen;
+        }
+
+    // Mediaani c
+        else {
+            return oikea;
+        }
 }
 
-
-//Funktio siivoaa samana vuonna liittyneet
+// Funktio siivoaa samana vuonna liittyneet
 void Datastructure::siistiminen(){
     Henkilo s;
     Henkilo* tutkittava1 = nullptr;
@@ -209,8 +212,8 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan samana vuonna liittyneet
-           ika_insertion(n, m - 1);
-
+           //ika_insertion(n, m - 1);
+           qsort_ika(n, m-1);
            n = m;
         }
         n++;
@@ -218,7 +221,98 @@ void Datastructure::siistiminen(){
     return;
 }
 
+// Funktio siistii listan syntymavuoden perusteella insertionilla
 /*
+
+void Datastructure::ika_insertion(int vasen, int oikea){
+
+    Henkilo s;
+    int i = vasen + 1;
+    int j = oikea;
+
+       while (i < oikea){
+           j = i;
+           s = tietokanta[i];
+           while (j >= vasen + 1 &&
+                  tietokanta[j - 1].birthYear > s.birthYear){
+               tietokanta[j] = tietokanta[j - 1];
+               j--;
+           }
+           tietokanta[j] = s;
+           i++;
+        }
+    return;
+}
+
+*/
+
+// Finds and prints youngest person
+void Datastructure::youngest(){
+    if (nuorin.name == ""){
+        return;
+    } else {
+        cout << nuorin.rank << " " << nuorin.name
+             << ", " << nuorin.shirtColor << endl;
+    }
+    return;
+}
+
+// Finds and prints oldest person
+void Datastructure::oldest(){
+    if (vanhin.name == ""){
+        return;
+    } else {
+      cout << vanhin.rank << " " << vanhin.name
+           << ", " << vanhin.shirtColor << endl;
+    }
+    return;
+}
+
+// Empties the datastructure
+void Datastructure::empty(){
+    nuorin.name = "";
+    vanhin.name = "";
+    tietokanta.clear();
+    on_sortattu = false;
+    return;
+}
+
+// returns the size of the datastructure
+size_t Datastructure::size(){
+    return tietokanta.size();
+}
+
+
+
+// Funktio tarkastaa onko lista valmiiksi sortattu
+/*
+bool Datastructure::onko_sortattu(){
+
+    Henkilo* tutkittava1 = nullptr;
+    Henkilo* tutkittava2 = nullptr;
+    vector<Henkilo>::size_type n = 0;
+
+    while (n + 1 < tietokanta.size()){
+
+        tutkittava1 = &tietokanta.at(n);
+        tutkittava2 = &tietokanta.at(n+1);
+
+        if (tutkittava1->enlistingYear > tutkittava2->enlistingYear){
+            return 0;
+        }
+        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
+            if (tutkittava1->birthYear > tutkittava2->birthYear){
+                return 0;
+            }
+        }
+
+        n++;
+    }
+    return 1;
+}
+*/
+
+
 void Datastructure::qsort_ika(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
@@ -255,95 +349,6 @@ void Datastructure::qsort_ika(int vasen, int oikea){
         sort(i, oikea);
     }
     return;
-}
-*/
-
-int Datastructure::median(int vasen, int oikea){
-
-    int keskimmainen = (vasen-oikea)/2 + oikea;
-    unsigned int a = tietokanta[vasen].enlistingYear;
-    unsigned int b = tietokanta[keskimmainen].enlistingYear;
-    unsigned int c = tietokanta[oikea].enlistingYear;
-
-    // Mediaani a
-        if ( (b <= a && a <= c) || (c <= a && a <= b)){
-            return vasen;
-        }
-
-    // Mediaani b
-        else if ( (a <= b && b <= c) || (c <= b && b <= a)){
-            return keskimmainen;
-        }
-
-    // Mediaani c
-        else {
-            return oikea;
-        }
-}
-
-// Funktio tarkastaa onko lista
-// valmiiksi palvelusaikajarjestyksessa
-/*
-bool Datastructure::onko_sortattu(){
-
-    Henkilo* tutkittava1 = nullptr;
-    Henkilo* tutkittava2 = nullptr;
-    vector<Henkilo>::size_type n = 0;
-
-    while (n + 1 < tietokanta.size()){
-
-        tutkittava1 = &tietokanta.at(n);
-        tutkittava2 = &tietokanta.at(n+1);
-
-        if (tutkittava1->enlistingYear > tutkittava2->enlistingYear){
-            return 0;
-        }
-        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
-            if (tutkittava1->birthYear > tutkittava2->birthYear){
-                return 0;
-            }
-        }
-
-        n++;
-    }
-    return 1;
-}
-*/
-// Finds and prints youngest person
-
-void Datastructure::youngest(){
-    if (nuorin.name == ""){
-        return;
-    } else {
-        cout << nuorin.rank << " " << nuorin.name
-             << ", " << nuorin.shirtColor << endl;
-    }
-    return;
-}
-
-// Finds and prints oldest person
-void Datastructure::oldest(){
-    if (vanhin.name == ""){
-        return;
-    } else {
-      cout << vanhin.rank << " " << vanhin.name
-           << ", " << vanhin.shirtColor << endl;
-    }
-    return;
-}
-
-// Empties the datastructure
-void Datastructure::empty(){
-    nuorin.name = "";
-    vanhin.name = "";
-    tietokanta.clear();
-    on_sortattu = false;
-    return;
-}
-
-// returns the size of the datastructure
-size_t Datastructure::size(){
-    return tietokanta.size();
 }
 
 
