@@ -212,9 +212,9 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan samana vuonna liittyneet
-           //ika_insertion(n, m - 1);
-           qsort_ika(n, m-1);
-           n = m;
+           ika_insertion(n, m - 1);
+           //qsort_ika(n, m - 1);
+           n = m - 1;
         }
         n++;
     }
@@ -222,7 +222,6 @@ void Datastructure::siistiminen(){
 }
 
 // Funktio siistii listan syntymavuoden perusteella insertionilla
-/*
 
 void Datastructure::ika_insertion(int vasen, int oikea){
 
@@ -244,7 +243,7 @@ void Datastructure::ika_insertion(int vasen, int oikea){
     return;
 }
 
-*/
+
 
 // Finds and prints youngest person
 void Datastructure::youngest(){
@@ -312,7 +311,7 @@ bool Datastructure::onko_sortattu(){
 }
 */
 
-
+/*
 void Datastructure::qsort_ika(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
@@ -350,6 +349,6 @@ void Datastructure::qsort_ika(int vasen, int oikea){
     }
     return;
 }
-
+*/
 
 
