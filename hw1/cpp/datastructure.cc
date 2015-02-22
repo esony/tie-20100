@@ -11,14 +11,15 @@ Datastructure::~Datastructure() {
 
 }
 
-//Tarkastetaan uusi alkio, onko se nuorin tai vanhin
+// Tarkastetaan uusi alkio, onko se nuorin tai vanhin
+// ja vielako ollaan jarjestyksessa
 void Datastructure::set_nuorin_vanhin(Henkilo uusi){
 
     //Jos tietokanta tyhja, on lisatty alkio seka nuorin etta vanhin
     if (tietokanta.empty()){
         nuorin = uusi;
         vanhin = uusi;
-
+        on_sortattu = true;
         return;
 
     // Tarkistetaan, onko uusi alkio nuorin
@@ -42,6 +43,27 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
     } else if (uusi.enlistingYear < vanhin.enlistingYear){
         vanhin = uusi;
 
+    }
+
+    // Katsotaan onko viimeisin lisatty alkiokin on jarjestyksessa
+    Henkilo* viimeinen = &tietokanta.back();
+
+    if (viimeinen->enlistingYear > uusi.enlistingYear){
+        on_sortattu = true;
+        return;
+
+    } else if (viimeinen->enlistingYear == uusi.enlistingYear){
+        if (viimeinen->birthYear > uusi.birthYear){
+            on_sortattu = true;
+            return;
+
+        } else {
+            on_sortattu = false;
+            return;
+        }
+    } else {
+        on_sortattu = false;
+        return;
     }
 }
 
@@ -214,7 +236,7 @@ void Datastructure::siistiminen(){
            //Sortataan samana vuonna liittyneet
            ika_insertion(n, m - 1);
            //qsort_ika(n, m - 1);
-           n = m;
+           n = m - 1;
         }
         n++;
     }
@@ -229,7 +251,7 @@ void Datastructure::ika_insertion(int vasen, int oikea){
     int i = vasen + 1;
     int j = oikea;
 
-       while (i <= oikea){ // ehka <= ???
+       while (i <= oikea){
            j = i;
            s = tietokanta[i];
            while (j >= vasen + 1 &&
