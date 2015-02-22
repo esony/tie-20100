@@ -196,6 +196,7 @@ void Datastructure::siistiminen(){
     return;
 }
 */
+
 //Funktio siivoaa samana vuonna liittyneet guicksortilla
 void Datastructure::siistiminen(){
     Henkilo s;
@@ -222,7 +223,7 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan quicksortilla
-           qsort_ika(n, m);
+           qsort_ika(n, m - 1);
 
            n = m;
         }
@@ -236,9 +237,29 @@ void Datastructure::qsort_ika(int vasen, int oikea){
     int j = oikea;
     Henkilo n;
 
-    // Etsitaan mediaanin paikka ja suuruus
-    int x = median(vasen, oikea);
-    unsigned int mediaani = tietokanta[x].birthYear;
+    // Etsitaan mediaanin suuruus
+    unsigned int mediaani;
+
+    int keskimmainen = (vasen-oikea)/2 + oikea;
+    unsigned int a = tietokanta[vasen].birthYear;
+    unsigned int b = tietokanta[keskimmainen].birthYear;
+    unsigned int c = tietokanta[oikea].birthYear;
+
+    // Mediaani a
+        if ( (b <= a && a <= c) || (c <= a && a <= b)){
+            mediaani = tietokanta[vasen].birthYear;
+        }
+
+    // Mediaani b
+        else if ( (a <= b && b <= c) || (c <= b && b <= a)){
+            mediaani = tietokanta[keskimmainen].birthYear;
+        }
+
+    // Mediaani c
+        else {
+            mediaani = tietokanta[oikea].birthYear;
+        }
+
 
     // Siirretaan suuremmat mediaanin oikealle ja pienemmat
     // vasemmalle puolelle
@@ -268,6 +289,7 @@ void Datastructure::qsort_ika(int vasen, int oikea){
     }
     return;
 }
+
 
 int Datastructure::median(int vasen, int oikea){
 
