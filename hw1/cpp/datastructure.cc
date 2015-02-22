@@ -32,7 +32,9 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
     } else if (uusi.enlistingYear > nuorin.enlistingYear) {
         nuorin = uusi;
 
-    } else if (uusi.enlistingYear == vanhin.enlistingYear){
+    }
+
+    if (uusi.enlistingYear == vanhin.enlistingYear){
         if (uusi.birthYear < vanhin.birthYear) {
             vanhin = uusi;
         }
@@ -151,7 +153,6 @@ void Datastructure::sort(int vasen, int oikea){
 // Funktio siistii quicksortatun listan samana vuonna liittyneet
 // henkilot insertionilla
 void Datastructure::siistiminen(){
-    cout << "insertion" << endl;
     Henkilo s;
     Henkilo* tutkittava1 = nullptr;
     Henkilo* tutkittava2 = nullptr;
@@ -183,7 +184,6 @@ void Datastructure::siistiminen(){
                s = tietokanta[i];
                while (j >= n + 1 && tietokanta[j - 1].birthYear > s.birthYear){
                    tietokanta[j] = tietokanta[j - 1];
-                   cout << tietokanta[j].birthYear << endl;
                    j--;
                }
                tietokanta[j] = s;
