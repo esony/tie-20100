@@ -18,7 +18,6 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
     if (tietokanta.empty()){
         nuorin = uusi;
         vanhin = uusi;
-        cout << "Tallennettu vanhimmaksi 1: " << nuorin.name << endl;
 
         return;
 
@@ -28,22 +27,18 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
     } else if (uusi.enlistingYear == nuorin.enlistingYear){
         if (uusi.birthYear > nuorin.birthYear){
             nuorin = uusi;
-            cout << "Tallennettu nuorimmaksi 1: " << nuorin.birthYear << endl;
         }
 
     } else if (uusi.enlistingYear > nuorin.enlistingYear) {
         nuorin = uusi;
-        cout << "Tallennettu nuorimmaksi 2" << endl;
 
     } else if (uusi.enlistingYear == vanhin.enlistingYear){
         if (uusi.birthYear < vanhin.birthYear) {
             vanhin = uusi;
-            cout << "Tallennettu vanhimmaksi 1" << endl;
         }
 
     } else if (uusi.enlistingYear < vanhin.enlistingYear){
         vanhin = uusi;
-        cout << "Tallennettu vanhimmaksi 2" << endl;
 
     }
 }
@@ -94,10 +89,14 @@ void Datastructure::print(){
 
 // Listan jarjestelyn aloittava funktio
 void Datastructure::quicksort(){
+    cout << "Onko sortattu?" << endl;
     if (onko_sortattu()){
+        cout << "On sortattu" << endl;
         return;
 
     } else {
+        cout << "Sortataan" << endl;
+
         int vasen = 0;
         int oikea = tietokanta.size() - 1;
 
@@ -106,29 +105,89 @@ void Datastructure::quicksort(){
     }
 }
 
-void Datastructure::sort(vasen, oikea){
+// Varsinaisen sorttauksen tekeva funktio
+
+void Datastructure::sort(int vasen, int oikea){
+    int i = vasen;
+    int j = oikea;
+    Henkilo n;
+
+    // Etsitaan mediaanin paikka ja suuruus
+    int x = median(vasen, oikea);
+    unsigned int mediaani = tietokanta[x].enlistingYear;
+
+    // Siirretaan suuremmat mediaanin oikealle ja pienemmat
+    // vasemmalle puolelle
+
+    while (i < j){
+        while (tietokanta[i].enlistingYear < mediaani ) {
+            i++;
+        }
+        while (tietokanta[j].enlistingYear > mediaani) {
+            j--;
+        }
+       if (i <= j){
+            n = tietokanta[i];
+            tietokanta[i] = tietokanta[j];
+            tietokanta[j] = n;
+            i++;
+            j--;
+       }
+    }
+    //Jarjestetaan alkiot mediaanin vasemmalla puolella
+    if (vasen < j){
+    sort(vasen, j);
+    }
+    //Jarjestetaan alkiot mediaanin oikealla puolella
+    if (i < oikea) {
+        sort(i, oikea);
+    }
+    return;
 
     return;
 }
 
+int Datastructure::median(int vasen, int oikea){
+
+    int keskimmainen = (vasen-oikea)/2 + oikea;
+    unsigned int a = tietokanta[vasen].enlistingYear;
+    unsigned int b = tietokanta[keskimmainen].enlistingYear;
+    unsigned int c = tietokanta[oikea].enlistingYear;
+
+    // Mediaani a
+        if ( (b <= a && a <= c) || (c <= a && a <= b)){
+            return vasen;
+        }
+
+    // Mediaani b
+        else if ( (a <= b && b <= c) || (c <= b && b <= a)){
+            return keskimmainen;
+        }
+
+    // Mediaani c
+        else {
+            return oikea;
+        }
+}
 
 // Funktio tarkastaa onko lista
 // valmiiksi palvelusaikajarjestyksessa
 
 bool Datastructure::onko_sortattu(){
-    vector<int>::size_type i = 0;
 
     Henkilo* tutkittava1 = nullptr;
     Henkilo* tutkittava2 = nullptr;
     vector<Henkilo>::size_type n = 0;
 
-    while (n < tietokanta.size() - 1){
+    while (n + 1 < tietokanta.size()){
+        cout << n << endl;
         tutkittava1 = &tietokanta.at(n);
         tutkittava2 = &tietokanta.at(n+1);
 
         if (tutkittava1->enlistingYear > tutkittava2->enlistingYear){
             return 0;
         }
+        n++;
     }
     return 1;
 }
@@ -137,10 +196,8 @@ bool Datastructure::onko_sortattu(){
 
 void Datastructure::youngest(){
     if (nuorin.name == ""){
-        cout << "Nuorinta ei oo" << endl;
         return;
     } else {
-      cout << "Nuorin tulloo" << endl;
         cout << nuorin.name << ", " << nuorin.shirtColor << endl;
     }
     return;
