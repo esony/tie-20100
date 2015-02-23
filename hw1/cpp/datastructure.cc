@@ -234,7 +234,7 @@ void Datastructure::siistiminen(){
            }
            //Sortataan samana vuonna liittyneet
            //ika_insertion(n, m - 1);
-           qsort_ika(n, m - 1);
+           qsort_ika(n, m);
            n = m - 1;
         }
         n++;
