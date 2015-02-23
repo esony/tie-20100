@@ -140,9 +140,9 @@ void Datastructure::sort(int vasen, int oikea){
     Henkilo m;
 
     // Etsitaan mediaanin paikka ja suuruus
-    int x = median(vasen, oikea);
-    unsigned int mediaani = tietokanta[x].enlistingYear;
-
+    //int x = median(vasen, oikea);
+    //unsigned int mediaani = tietokanta[x].enlistingYear;
+    unsigned int mediaani = tietokanta[oikea].enlistingYear;
     // Siirretaan suuremmat mediaanin oikealle ja pienemmat
     // vasemmalle puolelle
 
