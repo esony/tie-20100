@@ -156,17 +156,17 @@ void Datastructure::sort(int vasen, int oikea){
        if (i <= j){
             n = tietokanta[i];
             m = tietokanta[j];
-/*
+
             //Tarkastetaan onko samana vuonna liittyneet
             if (n.enlistingYear == m.enlistingYear){
                 if (n.birthYear > m.birthYear){
                     tietokanta[i] = tietokanta[j];
                     tietokanta[j] = n;
                 }
-            } else {*/
+            } else {
                 tietokanta[i] = tietokanta[j];
                 tietokanta[j] = n;
-            //}
+            }
             i++;
             j--;
 
@@ -233,8 +233,11 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan samana vuonna liittyneet
-           //ika_insertion(n, m - 1);
-           qsort_ika(n, m);
+           if (m - n < 5) {
+               ika_insertion(n, m - 1);
+           } else {
+               qsort_ika(n, m - 1);
+           }
            n = m - 1;
         }
         n++;
@@ -243,7 +246,7 @@ void Datastructure::siistiminen(){
 }
 
 // Funktio siistii listan syntymavuoden perusteella insertionilla
-/*
+
 void Datastructure::ika_insertion(int vasen, int oikea){
 
     Henkilo s;
@@ -263,7 +266,7 @@ void Datastructure::ika_insertion(int vasen, int oikea){
         }
     return;
 }
-*/
+
 
 
 // Finds and prints youngest person
