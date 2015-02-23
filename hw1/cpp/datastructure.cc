@@ -174,20 +174,11 @@ void Datastructure::sort(int vasen, int oikea){
     }
     //Jarjestetaan alkiot mediaanin vasemmalla puolella
     if (vasen < j){
-        if (j - vasen < 11){
-            insertion(vasen, j);
-        } else {
-            sort(vasen, j);
-        }
+    sort(vasen, j);
     }
-
     //Jarjestetaan alkiot mediaanin oikealla puolella
     if (i < oikea) {
-        if (oikea - i < 11){
-            insertion(vasen, j);
-        } else {
-            sort(i, oikea);
-        }
+        sort(i, oikea);
     }
     return;
 }
@@ -251,26 +242,6 @@ void Datastructure::siistiminen(){
         }
         n++;
     }
-    return;
-}
-
-void Datastructure::insertion(int vasen, int oikea){
-
-    Henkilo s;
-    int i = vasen + 1;
-    int j = oikea;
-
-       while (i <= oikea){
-           j = i;
-           s = tietokanta[i];
-           while (j >= vasen + 1 &&
-                  tietokanta[j - 1].enlistingYear > s.enlistingYear){
-               tietokanta[j] = tietokanta[j - 1];
-               j--;
-           }
-           tietokanta[j] = s;
-           i++;
-        }
     return;
 }
 
