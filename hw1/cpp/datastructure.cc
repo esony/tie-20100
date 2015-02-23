@@ -156,17 +156,17 @@ void Datastructure::sort(int vasen, int oikea){
        if (i <= j){
             n = tietokanta[i];
             m = tietokanta[j];
-
+/*
             //Tarkastetaan onko samana vuonna liittyneet
             if (n.enlistingYear == m.enlistingYear){
                 if (n.birthYear > m.birthYear){
                     tietokanta[i] = tietokanta[j];
                     tietokanta[j] = n;
                 }
-            } else {
+            } else {*/
                 tietokanta[i] = tietokanta[j];
                 tietokanta[j] = n;
-            }
+            //}
             i++;
             j--;
 
