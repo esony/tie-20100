@@ -12,7 +12,6 @@ Datastructure::~Datastructure() {
 }
 
 // Tarkastetaan uusi alkio, onko se nuorin tai vanhin
-// ja vielako ollaan jarjestyksessa
 void Datastructure::set_nuorin_vanhin(Henkilo uusi){
 
     //Jos tietokanta tyhja, on lisatty alkio seka nuorin etta vanhin
@@ -44,27 +43,6 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
         vanhin = uusi;
 
     }
-/*
-    // Katsotaan onko viimeisin lisatty alkiokin on jarjestyksessa
-    Henkilo* viimeinen = &tietokanta.back();
-
-    if (viimeinen->enlistingYear < uusi.enlistingYear && on_sortattu){
-        on_sortattu = true;
-        return;
-
-    } else if (viimeinen->enlistingYear == uusi.enlistingYear){
-        if (viimeinen->birthYear < uusi.birthYear && on_sortattu){
-            on_sortattu = true;
-            return;
-
-        } else {
-            on_sortattu = false;
-            return;
-        }
-    } else {
-        on_sortattu = false;
-        return;
-    }*/
 }
 
 void Datastructure::add(std::string rank, unsigned int birthYear,
@@ -84,7 +62,6 @@ void Datastructure::add(std::string rank, unsigned int birthYear,
     set_nuorin_vanhin(uusi);
     tietokanta.push_back(uusi);
     return;
-
 }
 
 //Arvo nimi, Born: vuosi, Joined: vuosi, paidanväri
@@ -109,7 +86,6 @@ void Datastructure::print(){
              << ", " << tulostettava->shirtColor << endl;
         ++n;
     }
-
 }
 
 // Listan jarjestelyn aloittava ja viimeisteleva funktio
@@ -137,11 +113,15 @@ void Datastructure::sort(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
     Henkilo n;
-
+    unsigned int mediaani;
     // Etsitaan mediaanin paikka ja suuruus
-    int x = median(vasen, oikea);
-    unsigned int mediaani = tietokanta[x].enlistingYear;
+    if (oikea - vasen < 4) {
+        mediaani = tietokanta[(oikea-vasen) / 2 + oikea].enlistingYear;
 
+    } else {
+        int x = median(vasen, oikea);
+        mediaani = tietokanta[x].enlistingYear;
+    }
     // Siirretaan suuremmat mediaanin oikealle ja pienemmat
     // vasemmalle puolelle
 
@@ -172,7 +152,7 @@ void Datastructure::sort(int vasen, int oikea){
     }
     //Jarjestetaan alkiot mediaanin vasemmalla puolella
     if (vasen < j){
-    sort(vasen, j);
+        sort(vasen, j);
     }
     //Jarjestetaan alkiot mediaanin oikealla puolella
     if (i < oikea) {
