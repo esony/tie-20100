@@ -44,7 +44,7 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
         vanhin = uusi;
 
     }
-
+/*
     // Katsotaan onko viimeisin lisatty alkiokin on jarjestyksessa
     Henkilo* viimeinen = &tietokanta.back();
 
@@ -64,7 +64,7 @@ void Datastructure::set_nuorin_vanhin(Henkilo uusi){
     } else {
         on_sortattu = false;
         return;
-    }
+    }*/
 }
 
 void Datastructure::add(std::string rank, unsigned int birthYear,
@@ -80,6 +80,7 @@ void Datastructure::add(std::string rank, unsigned int birthYear,
     uusi.shirtColor = shirtColor;
     uusi.name = name;
 
+    on_sortattu = false;
     set_nuorin_vanhin(uusi);
     tietokanta.push_back(uusi);
     return;
