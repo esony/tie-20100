@@ -116,7 +116,7 @@ void Datastructure::sort(int vasen, int oikea){
     unsigned int mediaani;
     // Etsitaan mediaanin paikka ja suuruus
     if (oikea - vasen < 4) {
-        mediaani = tietokanta[(oikea-vasen) / 2 + oikea].enlistingYear;
+        mediaani = tietokanta[(vasen - oikea) / 2 + oikea].enlistingYear;
 
     } else {
         int x = median(vasen, oikea);
