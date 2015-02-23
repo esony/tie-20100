@@ -113,15 +113,11 @@ void Datastructure::sort(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
     Henkilo n;
-    unsigned int mediaani;
-    // Etsitaan mediaanin paikka ja suuruus
-    if (oikea - vasen < 4) {
-        mediaani = tietokanta[(vasen - oikea) / 2 + oikea].enlistingYear;
 
-    } else {
-        int x = median(vasen, oikea);
-        mediaani = tietokanta[x].enlistingYear;
-    }
+    // Etsitaan mediaanin paikka ja suuruus
+    int x = median(vasen, oikea);
+    unsigned int mediaani = tietokanta[x].enlistingYear;
+
     // Siirretaan suuremmat mediaanin oikealle ja pienemmat
     // vasemmalle puolelle
 
