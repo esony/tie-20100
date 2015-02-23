@@ -137,7 +137,6 @@ void Datastructure::sort(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
     Henkilo n;
-    Henkilo m;
 
     // Etsitaan mediaanin paikka ja suuruus
     int x = median(vasen, oikea);
@@ -155,11 +154,10 @@ void Datastructure::sort(int vasen, int oikea){
         }
        if (i <= j){
             n = tietokanta[i];
-            m = tietokanta[j];
 
             //Tarkastetaan onko samana vuonna liittyneet
-            if (n.enlistingYear == m.enlistingYear){
-                if (n.birthYear > m.birthYear){
+            if (n.enlistingYear == tietokanta[j].enlistingYear){
+                if (n.birthYear > tietokanta[j].birthYear){
                     tietokanta[i] = tietokanta[j];
                     tietokanta[j] = n;
                 }
