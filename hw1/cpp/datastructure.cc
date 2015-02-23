@@ -140,9 +140,9 @@ void Datastructure::sort(int vasen, int oikea){
     Henkilo m;
 
     // Etsitaan mediaanin paikka ja suuruus
-    //int x = median(vasen, oikea);
-    //unsigned int mediaani = tietokanta[x].enlistingYear;
-    unsigned int mediaani = tietokanta[oikea].enlistingYear;
+    int x = median(vasen, oikea);
+    unsigned int mediaani = tietokanta[x].enlistingYear;
+
     // Siirretaan suuremmat mediaanin oikealle ja pienemmat
     // vasemmalle puolelle
 
@@ -174,11 +174,20 @@ void Datastructure::sort(int vasen, int oikea){
     }
     //Jarjestetaan alkiot mediaanin vasemmalla puolella
     if (vasen < j){
-    sort(vasen, j);
+        if (j - vasen < 11){
+            insertion(vasen, j);
+        } else {
+            sort(vasen, j);
+        }
     }
+
     //Jarjestetaan alkiot mediaanin oikealla puolella
     if (i < oikea) {
-        sort(i, oikea);
+        if (oikea - i < 11){
+            insertion(vasen, j);
+        } else {
+            sort(i, oikea);
+        }
     }
     return;
 }
@@ -242,6 +251,26 @@ void Datastructure::siistiminen(){
         }
         n++;
     }
+    return;
+}
+
+void Datastructure::insertion(int vasen, int oikea){
+
+    Henkilo s;
+    int i = vasen + 1;
+    int j = oikea;
+
+       while (i <= oikea){
+           j = i;
+           s = tietokanta[i];
+           while (j >= vasen + 1 &&
+                  tietokanta[j - 1].enlistingYear > s.enlistingYear){
+               tietokanta[j] = tietokanta[j - 1];
+               j--;
+           }
+           tietokanta[j] = s;
+           i++;
+        }
     return;
 }
 

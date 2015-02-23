@@ -67,7 +67,7 @@ class Datastructure
     void set_nuorin_vanhin(Henkilo uusi);
     int median(int vasen, int oikea);
     void sort(int vasen, int oikea);
-    //bool onko_sortattu();
+    void insertion(int vasen, int oikea);
 
     void siistiminen();
     void ika_insertion(int vasen, int oikea);
