@@ -233,7 +233,7 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan samana vuonna liittyneet
-           if (m - n < 5) {
+           if (m - n < 11) {
                ika_insertion(n, m - 1);
            } else {
                qsort_ika(n, m - 1);
@@ -304,37 +304,6 @@ void Datastructure::empty(){
 size_t Datastructure::size(){
     return tietokanta.size();
 }
-
-
-
-// Funktio tarkastaa onko lista valmiiksi sortattu
-/*
-bool Datastructure::onko_sortattu(){
-
-    Henkilo* tutkittava1 = nullptr;
-    Henkilo* tutkittava2 = nullptr;
-    vector<Henkilo>::size_type n = 0;
-
-    while (n + 1 < tietokanta.size()){
-
-        tutkittava1 = &tietokanta.at(n);
-        tutkittava2 = &tietokanta.at(n+1);
-
-        if (tutkittava1->enlistingYear > tutkittava2->enlistingYear){
-            return 0;
-        }
-        if (tutkittava1->enlistingYear == tutkittava2->enlistingYear){
-            if (tutkittava1->birthYear > tutkittava2->birthYear){
-                return 0;
-            }
-        }
-
-        n++;
-    }
-    return 1;
-}
-*/
-
 
 void Datastructure::qsort_ika(int vasen, int oikea){
     int i = vasen;
