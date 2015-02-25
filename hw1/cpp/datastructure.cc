@@ -11,7 +11,7 @@ Datastructure::~Datastructure() {
 
 }
 
-// Tarkastetaan uusi alkio, onko se nuorin tai vanhin
+// Funktio tarkastaa lisatyn uuden alkion, onko se nuorin tai vanhin
 void Datastructure::set_nuorin_vanhin(Henkilo uusi){
 
     //Jos tietokanta tyhja, on lisatty alkio seka nuorin etta vanhin
@@ -108,6 +108,7 @@ void Datastructure::quicksort(){
 }
 
 // Varsinaisen sorttauksen tekeva funktio
+// Kaytossa quicksort algoritmi 3 otoksen mediaanilla
 
 void Datastructure::sort(int vasen, int oikea){
     int i = vasen;
@@ -182,7 +183,7 @@ int Datastructure::median(int vasen, int oikea){
         }
 }
 
-// Funktio siivoaa samana vuonna liittyneet
+// Funktio jarjestelee samana vuonna liittyneet
 void Datastructure::siistiminen(){
     Henkilo* tutkittava1 = nullptr;
     Henkilo* tutkittava2 = nullptr;
@@ -207,6 +208,8 @@ void Datastructure::siistiminen(){
                m++;
            }
            //Sortataan samana vuonna liittyneet
+           //insertionilla jos alkioita < 11
+           //ja muuten quicksortilla
            if (m - n < 11) {
                ika_insertion(n, m - 1);
            } else {
@@ -219,7 +222,7 @@ void Datastructure::siistiminen(){
     return;
 }
 
-// Funktio siistii listan syntymavuoden perusteella insertionilla
+// Funktio jarjestelee listan syntymavuoden perusteella insertionilla
 
 void Datastructure::ika_insertion(int vasen, int oikea){
 
@@ -279,6 +282,7 @@ size_t Datastructure::size(){
     return tietokanta.size();
 }
 
+//Jarjestelee syntymavuoden mukaan quicksortilla
 void Datastructure::qsort_ika(int vasen, int oikea){
     int i = vasen;
     int j = oikea;
