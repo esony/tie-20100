@@ -1,3 +1,12 @@
+/*Idea kyseisten algoritmien kayttoon tuli sivustolta
+ * http://www.sorting-algorithms.com/
+ *
+ * Havainnollistusten perusteella tulin siihen tulokseen,
+ * etta 10 alkiota on nopeampi jarjestella insertionilla.
+ * En implementoinut tata kuitenkaan paasorttaukseen, mutta
+ * samana vuonna liittyneiden jarjestely ikavuosien mukaan
+ * on toteutettu jaetusti quicksortilla ja insertionilla.
+*/
 
 #include <iostream>
 #include "datastructure.hh"
