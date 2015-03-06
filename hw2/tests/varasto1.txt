@@ -1,0 +1,5 @@
+VHT:9876:321;5;12.1;Jet-Puffed Marsmallows
+SMK:1212:965;1234;8.97;Tyrkisk Peber
+SUK:8787:324;120;93.93;Fazer Maitosuklaa
+LKS:1234:123;100;42.2;Panda Lakupala
+GUM:2345:222;500;58.92;Jenkki Pro Freshmint
