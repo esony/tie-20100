@@ -92,11 +92,13 @@ void Datastructure::substract(const string& ID, unsigned int amount){
             if (ptr->amount < amount){
                 cerr << EI_VARASTOA << endl;
                 cerr << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
+                return;
 
             //Jos varastossa on enemman kuin halutaan poistaa
             } else if (ptr->amount > amount){
                 ptr->amount -= amount;
                 cout << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
+                return;
 
             //Jos varasto tyhjenee, poistetaan tuote kokonaan
             } else if (ptr->amount == amount){
@@ -104,30 +106,34 @@ void Datastructure::substract(const string& ID, unsigned int amount){
                 //Jos tuote on ensimmainen ja viimeinen laatikossa
                 if (ptr == tietokanta[index] && ptr->next == NULL){
                     cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
-                    ptr->ID = "X";
+                    ptr->ID = "";
                     ptr->location = "";
                     ptr->amount = 0;
                     ptr->name = "";
+                    return;
 
                 //Jos tuote on ensimmainen, muttei viimeinen laatikossa
                 } else if (ptr == tietokanta[index]){
                     cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
                     tietokanta[index] = ptr->next;
                     delete ptr;
+                    return;
 
 /*                //Jos tuote viimeisena laatikossa
                 } else if (ptr->next = NULL){
                     P1->next = NULL;
                     delete ptr;
+                    return;
 */
                 //Jos edelliset eivat pade, niin poistetaan tuote laatikosta
                 } else {
                     cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
                     P1->next = ptr->next;
                     delete ptr;
+                    return;
                 }
             }
-            return;
+            cout << "wtf?" << endl;
 
         } else {
             //Jos ei ollut oikea, siirrytaan seuraavaan
