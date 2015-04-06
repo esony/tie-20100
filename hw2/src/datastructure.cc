@@ -91,6 +91,7 @@ void Datastructure::substract(const string& ID, unsigned int amount){
             //Jos tuotetta varastossa on liian vahan
             if (ptr->amount < amount){
                 cerr << EI_VARASTOA << endl;
+                cerr << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
 
             //Jos varastossa on enemman kuin halutaan poistaa
             } else if (ptr->amount > amount){
