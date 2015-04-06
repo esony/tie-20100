@@ -5,10 +5,10 @@
 #define DATASTRUCTURE_HH
 
 #include <string>
+#include <deque>
 
 const std::string EI_SAATAVILLA = "Tuotetta ei varastossa.";
 const std::string EI_VARASTOA = "Varastosaldo ei riittävä.";
-
 class Datastructure
 {
     public:
@@ -44,6 +44,21 @@ class Datastructure
 private:
 
     // Add your own implementation here
+    static const int SIZE = 3001;
+
+    struct Tuote {
+        std::string ID;
+        std::string location;
+        unsigned int amount;
+        std::string name;
+
+        Tuote* next;
+    };
+
+    Tuote* tietokanta[SIZE];
+    size_t varastossa = 0;
+
+    int hash(const std::string& ID) const;
 
 };
 
