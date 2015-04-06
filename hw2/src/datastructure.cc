@@ -176,8 +176,20 @@ void Datastructure::find(const string& ID) const{
 
 // Returns how many different types of candy the datastructure contains
 size_t Datastructure::count() const{
-    // https://www.youtube.com/watch?v=PhEH7kaQyy0
-    return varastossa;
+    size_t n = 0;
+    Tuote* ptr;
+
+    for (int i = 0; i < SIZE; i++){
+        ptr = tietokanta[i];
+
+        while (ptr != NULL){
+            if (ptr->ID != ""){
+                ++n;
+            }
+            ptr = ptr->next;
+        }
+    }
+    return n;
 }
 
 // Empties the datastructure
