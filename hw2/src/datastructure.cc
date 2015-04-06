@@ -87,7 +87,6 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 
         //Kun oikea tuote loytyy
         if (ptr->ID == ID){
-            cout << "Oikea loytyi" << endl;
 
             //Jos tuotetta varastossa on liian vahan
             if (ptr->amount < amount){
