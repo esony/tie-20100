@@ -90,8 +90,8 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 
             //Jos tuotetta varastossa on liian vahan
             if (ptr->amount < amount){
-                cerr << EI_VARASTOA << endl;
-                cerr << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
+                cout << EI_VARASTOA << endl;
+                cout << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
                 return;
 
             //Jos varastossa on enemman kuin halutaan poistaa
@@ -133,7 +133,6 @@ void Datastructure::substract(const string& ID, unsigned int amount){
                     return;
                 }
             }
-            cout << "wtf?" << endl;
 
         } else {
             //Jos ei ollut oikea, siirrytaan seuraavaan
@@ -144,7 +143,7 @@ void Datastructure::substract(const string& ID, unsigned int amount){
     }
 
     //Jos ei loydy varastosta, niin tulostellaan
-    cerr << EI_SAATAVILLA << endl;
+    cout << EI_SAATAVILLA << endl;
     return;
 }
 
@@ -227,7 +226,10 @@ void Datastructure::empty(){
 
 // Saves candy data to file, called when exiting
 void Datastructure::save_to_file(const string& filename) const{
-    cout << filename << endl;
+    if (filename == filename){
+        return;
+    }
+
 }
 
 //Funktio generoi ID:n perusteella numeron valilta 0-3000
@@ -340,8 +342,6 @@ int Datastructure::hash(const string& ID) const{
     for (unsigned int i = 0; i < ID.length(); i++){
         char n = ID.at(i);
         paluuarvo = paluuarvo * 3 + (int)n;
-//        cout << n << " lukuarvo " << int(n) << " paluuarvo " << paluuarvo << endl;
     }
-//    cout << "Lukuarvo: " << paluuarvo << ", laatikko: " << paluuarvo % SIZE << endl;
     return paluuarvo % SIZE;
 }
