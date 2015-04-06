@@ -103,6 +103,7 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 
                 //Jos tuote on ensimmainen ja viimeinen laatikossa
                 if (ptr == tietokanta[index] && ptr->next == NULL){
+                    cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
                     ptr->ID = "";
                     ptr->location = "";
                     ptr->amount = 0;
@@ -110,6 +111,7 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 
                 //Jos tuote on ensimmainen, muttei viimeinen laatikossa
                 } else if (ptr == tietokanta[index]){
+                    cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
                     tietokanta[index] = ptr->next;
                     delete ptr;
 
@@ -120,6 +122,7 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 */
                 //Jos edelliset eivat pade, niin poistetaan tuote laatikosta
                 } else {
+                    cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
                     P1->next = ptr->next;
                     delete ptr;
                 }
