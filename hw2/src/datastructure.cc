@@ -3,11 +3,12 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <deque>
 
 using namespace std;
 
-Datastructure::Datastructure(){
-    for (int i = 0; i < SIZE; i++){
+Datastructure::Datastructure(): tietokanta(SIZE){
+/*    for (int i = 0; i < SIZE; i++){
         tietokanta[i] = new Tuote;
         tietokanta[i]->ID = "";
         tietokanta[i]->location = "";
@@ -15,6 +16,7 @@ Datastructure::Datastructure(){
         tietokanta[i]->name = "";
         tietokanta[i]->next = NULL;
     }
+    */
 }
 
 Datastructure::~Datastructure(){
@@ -27,13 +29,21 @@ void Datastructure::add(const string& ID, const string& location,
     int index = hash(ID);
 
     //Jos laatikossa ei ole yhtaan alkiota, lisataan tuote sinne
-    if (tietokanta[index]->ID == ""){
-
+    if (tietokanta[index] == NULL){
+        Tuote* uusi = new Tuote;
+        uusi->ID = ID;
+        uusi->location = location;
+        uusi->amount = amount;
+        uusi->name = name;
+        uusi->next = NULL;
+        tietokanta[index] = uusi;
+        /*
         tietokanta[index]->ID = ID;
         tietokanta[index]->location = location;
         tietokanta[index]->amount = amount;
         tietokanta[index]->name = name;
         tietokanta[index]->next = NULL;
+*/
         return;
 
     //Jos laatikossa on alkioita
@@ -106,10 +116,14 @@ void Datastructure::substract(const string& ID, unsigned int amount){
                 //Jos tuote on ensimmainen ja viimeinen laatikossa
                 if (ptr == tietokanta[index] && ptr->next == NULL){
                     cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
+                    /*
                     ptr->ID = "";
                     ptr->location = "";
                     ptr->amount = 0;
                     ptr->name = "";
+                    */
+                    tietokanta[index] = NULL;
+                    delete ptr;
                     return;
 
                 //Jos tuote on ensimmainen, muttei viimeinen laatikossa
@@ -191,9 +205,10 @@ size_t Datastructure::count() const{
         ptr = tietokanta[i];
 
         while (ptr != NULL){
-            if (ptr->ID != ""){
+/*            if (ptr->ID != ""){
                 ++n;
             }
+*/          ++n;
             ptr = ptr->next;
         }
     }
@@ -214,13 +229,15 @@ void Datastructure::empty(){
             delete pdel;
             pdel = ptr;
         }
-
+/*
         tietokanta[i] = new Tuote;
         tietokanta[i]->ID = "";
         tietokanta[i]->location = "";
         tietokanta[i]->amount = 0;
         tietokanta[i]->name = "";
         tietokanta[i]->next = NULL;
+        */
+        tietokanta[i] = NULL;
     }
 }
 
@@ -231,11 +248,12 @@ void Datastructure::save_to_file(const string& filename) const{
 
     for (int i = 0; i < SIZE; i++){
         ptr = tietokanta[i];
-
+/*
         //Jos laatikossa ei ole tuotteita, jatketaan seuraavaan
         if (ptr->ID == ""){
             continue;
         }
+*/
         while (ptr != NULL){
             tulostus << ptr->ID << ';'
                      << ptr->amount << ';'

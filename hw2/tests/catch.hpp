@@ -8816,7 +8816,12 @@ namespace Catch {
 
 // Standard C/C++ main entry point
 int main (int argc, char * const argv[]) {
-    return Catch::Session().run( argc, argv );
+    std::clock_t begin = clock();
+    Catch::Session().run( argc, argv );
+    std::clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    std::cout << "Aikaa meni " << elapsed_secs << std::endl;
+    return 0;
 }
 
 #else // __OBJC__

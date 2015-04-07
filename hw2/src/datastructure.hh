@@ -55,9 +55,8 @@ private:
         Tuote* next;
     };
 
-    Tuote* tietokanta[SIZE];
-    size_t varastossa = 0;
-
+//    Tuote* tietokanta[SIZE];
+    std::deque<Tuote*> tietokanta;
     int hash(const std::string& ID) const;
 
 };
