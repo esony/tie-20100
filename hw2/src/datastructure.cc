@@ -133,12 +133,6 @@ void Datastructure::substract(const string& ID, unsigned int amount){
                     delete ptr;
                     return;
 
-/*                //Jos tuote viimeisena laatikossa
-                } else if (ptr->next = NULL){
-                    P1->next = NULL;
-                    delete ptr;
-                    return;
-*/
                 //Jos edelliset eivat pade, niin poistetaan tuote laatikosta
                 } else {
                     cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;

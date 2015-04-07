@@ -20,22 +20,22 @@ class Datastructure
     // Adds candies to the datastructure
     void add(const std::string& ID, const std::string& location,
             unsigned int amount, const std::string& name);
-          
+
     // Removes candies from the datastructure
     void substract(const std::string& ID, unsigned int amount);
 
-    // Finds candy and prints its status 
+    // Finds candy and prints its status
     void find(const std::string& ID) const;
 
-    // Returns how many different types of candy the datastructure contains 
+    // Returns how many different types of candy the datastructure contains
     size_t count() const;
 
     // Empties the datastructure
     void empty();
-    
+
     // Saves candy data to file, called when exiting
     void save_to_file(const std::string& filename) const;
-   
+
     // Copy constructor is forbidden
     Datastructure(const Datastructure&) = delete;
     // Assignment operator is forbidden

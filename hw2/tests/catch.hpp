@@ -8814,13 +8814,19 @@ namespace Catch {
 
 #ifndef __OBJC__
 
+#include <chrono>
 // Standard C/C++ main entry point
 int main (int argc, char * const argv[]) {
-    std::clock_t begin = clock();
+    //std::clock_t begin = clock();
+
+    auto start = std::chrono::system_clock::now();
     Catch::Session().run( argc, argv );
-    std::clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    std::cout << "Aikaa meni " << elapsed_secs << std::endl;
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
+
+    //std::clock_t end = clock();
+    //double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    std::cout << "Aikaa meni " << duration.count() << " ms."<< std::endl;
+
     return 0;
 }
 
