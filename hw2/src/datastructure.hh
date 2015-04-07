@@ -44,7 +44,7 @@ class Datastructure
 private:
 
     // Add your own implementation here
-    static const int SIZE = 3001;
+    static const int SIZE = 2991;
 
     struct Tuote {
         std::string ID;
@@ -55,7 +55,6 @@ private:
         Tuote* next;
     };
 
-//    Tuote* tietokanta[SIZE];
     std::deque<Tuote*> tietokanta;
     int hash(const std::string& ID) const;
 

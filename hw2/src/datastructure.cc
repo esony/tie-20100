@@ -8,19 +8,9 @@
 using namespace std;
 
 Datastructure::Datastructure(): tietokanta(SIZE){
-/*    for (int i = 0; i < SIZE; i++){
-        tietokanta[i] = new Tuote;
-        tietokanta[i]->ID = "";
-        tietokanta[i]->location = "";
-        tietokanta[i]->amount = 0;
-        tietokanta[i]->name = "";
-        tietokanta[i]->next = NULL;
-    }
-    */
 }
 
 Datastructure::~Datastructure(){
-
 }
 
 // Adds candies to the datastructure
@@ -37,13 +27,7 @@ void Datastructure::add(const string& ID, const string& location,
         uusi->name = name;
         uusi->next = NULL;
         tietokanta[index] = uusi;
-        /*
-        tietokanta[index]->ID = ID;
-        tietokanta[index]->location = location;
-        tietokanta[index]->amount = amount;
-        tietokanta[index]->name = name;
-        tietokanta[index]->next = NULL;
-*/
+
         return;
 
     //Jos laatikossa on alkioita
@@ -116,12 +100,6 @@ void Datastructure::substract(const string& ID, unsigned int amount){
                 //Jos tuote on ensimmainen ja viimeinen laatikossa
                 if (ptr == tietokanta[index] && ptr->next == NULL){
                     cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
-                    /*
-                    ptr->ID = "";
-                    ptr->location = "";
-                    ptr->amount = 0;
-                    ptr->name = "";
-                    */
                     tietokanta[index] = NULL;
                     delete ptr;
                     return;
@@ -157,18 +135,6 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 
 // Finds candy and prints its status
 void Datastructure::find(const string& ID) const{
-/*
-    Tuote* pdr;
-
-    for (int i = 0; i < SIZE; i++){
-        pdr = tietokanta[i];
-
-        while (pdr != NULL){
-            cout << "Laatikossa " << i << " " << pdr->name << " " << pdr->amount << " " << pdr->location << endl;
-            pdr = pdr->next;
-        }
-    }
-*/
 
     //Etsitaan oikea laatikko ID:n perusteella
     int index = hash(ID);
@@ -194,15 +160,10 @@ void Datastructure::find(const string& ID) const{
 size_t Datastructure::count() const{
     size_t n = 0;
     Tuote* ptr;
-
     for (int i = 0; i < SIZE; i++){
         ptr = tietokanta[i];
-
         while (ptr != NULL){
-/*            if (ptr->ID != ""){
-                ++n;
-            }
-*/          ++n;
+            ++n;
             ptr = ptr->next;
         }
     }
@@ -223,14 +184,7 @@ void Datastructure::empty(){
             delete pdel;
             pdel = ptr;
         }
-/*
-        tietokanta[i] = new Tuote;
-        tietokanta[i]->ID = "";
-        tietokanta[i]->location = "";
-        tietokanta[i]->amount = 0;
-        tietokanta[i]->name = "";
-        tietokanta[i]->next = NULL;
-        */
+
         tietokanta[i] = NULL;
     }
 }
@@ -242,12 +196,7 @@ void Datastructure::save_to_file(const string& filename) const{
 
     for (int i = 0; i < SIZE; i++){
         ptr = tietokanta[i];
-/*
-        //Jos laatikossa ei ole tuotteita, jatketaan seuraavaan
-        if (ptr->ID == ""){
-            continue;
-        }
-*/
+
         while (ptr != NULL){
             tulostus << ptr->ID << ';'
                      << ptr->amount << ';'
@@ -262,12 +211,11 @@ void Datastructure::save_to_file(const string& filename) const{
 //Numero kertoo laatikon, johon tuote kuuluu
 int Datastructure::hash(const string& ID) const{
 
-    //Palautetaan tehtaillun numeron ja taulukon koon jakojaannos
-    unsigned int paluuarvo = 0;
-
-    for (unsigned int i = 0; i < ID.length(); i++){
-        char n = ID.at(i);
-        paluuarvo = paluuarvo * 3 + (int)n;
+    unsigned int paluuarvo = 9209;
+    for (unsigned int i = 0; i < ID.length(); ++i){
+        paluuarvo = (paluuarvo * ID[i] + ID[i]*ID[i]*ID[i] + ID[i]*ID[i] + ID[i]);
     }
-    return paluuarvo % SIZE;
+
+    //Palautetaan tehtaillun numeron ja taulukon koon jakojaannos
+    return (paluuarvo) % SIZE;
 }
