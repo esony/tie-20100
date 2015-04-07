@@ -226,115 +226,29 @@ void Datastructure::empty(){
 
 // Saves candy data to file, called when exiting
 void Datastructure::save_to_file(const string& filename) const{
-    if (filename == filename){
-        return;
-    }
+    ofstream tulostus(filename);
+    Tuote* ptr = tietokanta[0];
 
+    for (int i = 0; i < SIZE; i++){
+        ptr = tietokanta[i];
+
+        //Jos laatikossa ei ole tuotteita, jatketaan seuraavaan
+        if (ptr->ID == ""){
+            continue;
+        }
+        while (ptr != NULL){
+            tulostus << ptr->ID << ';'
+                     << ptr->amount << ';'
+                     << ptr->location << ';'
+                     << ptr->name << endl;
+            ptr = ptr->next;
+        }
+    }
 }
 
 //Funktio generoi ID:n perusteella numeron valilta 0-3000
 //Numero kertoo laatikon, johon tuote kuuluu
 int Datastructure::hash(const string& ID) const{
-
-    /*
-    istringstream virta(ID);
-    string tuoteryhma;
-    int varastotunnus;
-    int valmistaja;
-    int tuote;
-
-
-
-    //Luetaan virrasta tuoteryhma (josta myohemmin varastotunnus)
-    virta >> tuoteryhma;
-    //Valimerkki ':'
-    virta.get();
-    //Valmistajan tunnus
-    virta >> valmistaja;
-    //Toinen valimerkki ':'
-    virta.get();
-    //Tuotenumero
-    virta >> tuote;
-
-    //Varmistetaan etta luvallinen valimerkki
-    if (virta.get() != ':'){
-        cerr << "Vaara ID" << endl;
-    }
-
-    //Luetaan virrasta valmistajan koodi
-    if ( !(virta >> valmistaja) ){
-        cerr << "Vaara ID" << endl;
-    }
-    //Varmistetaan etta se on rajoissa
-    if (valmistaja < 1000 || valmistaja > 9999){
-        cerr << "Vaara ID" << endl;
-    }
-    //Varmistetaan etta luvallinen valimerkki
-    if (virta.get() != ':'){
-        cerr << "Vaara ID" << endl;
-    }
-
-    //Luetaan virrasta tuotteen koodi
-    if ( !(virta >> tuote) ){
-        cerr << "Vaara ID" << endl;
-    }
-
-    //Varmistetaan etta se on rajoissa
-    if (tuote < 100 || tuote > 999){
-        cerr << "Vaara ID" << endl;
-        return false;
-    }
-
-    //Varmistetaan etta ID ei sisalla muuta roskaa
-    if (virta.peek() != EOF){
-        cerr << "Vaara ID" << endl;
-        return false;
-    }
-
-
-    // Vaihdetaan varastokoodi numeroksi
-    if (tuoteryhma == "LKS"){
-        varastotunnus = 0;
-
-    } else if (tuoteryhma == "GUM"){
-        varastotunnus = 1;
-
-    } else if (tuoteryhma == "SMK"){
-        varastotunnus = 2;
-
-    } else if (tuoteryhma == "MIX"){
-        varastotunnus = 3;
-
-    } else if (tuoteryhma == "SUK"){
-        varastotunnus = 4;
-
-    } else if (tuoteryhma == "TIK"){
-        varastotunnus = 5;
-
-    } else if (tuoteryhma == "VHT"){
-        varastotunnus = 6;
-
-    } else if (tuoteryhma == "WIN"){
-        varastotunnus = 7;
-
-    //Jos se on virheellinen
-    } else {
-        varastotunnus = 8;
-    }
-
-    //Tehtaillaan koko ID:sta yksi numero, mallia xn nnn mmm
-    int paluuarvo = varastotunnus;
-
-    // x * 10 000 + nnnn = xn nnn
-    paluuarvo = paluuarvo * 10000 + valmistaja;
-
-    // xn nnn * 1 000 + mmm = xn nnn mmm
-    paluuarvo = paluuarvo * 1000 + tuote;
-    cout << "Tuoteryhma: " << tuoteryhma << ", varastotunnus " << varastotunnus << endl;
-    cout << "Valmistaja " << valmistaja << endl;
-    cout << "Tuote " << tuote << endl;
-    cout << "Menee laatikkoon" << paluuarvo % SIZE << endl;
-    */
 
     //Palautetaan tehtaillun numeron ja taulukon koon jakojaannos
     unsigned int paluuarvo = 0;
