@@ -18,7 +18,7 @@ void Datastructure::add(const string& ID, const string& location,
         unsigned int amount, const string& name){
     int index = hash(ID);
 
-    //Jos laatikossa ei ole yhtaan alkiota, lisataan tuote sinne
+    // Jos laatikossa ei ole yhtaan alkiota, lisataan tuote sinne
     if (tietokanta[index] == NULL){
         Tuote* uusi = new Tuote;
         uusi->ID = ID;
@@ -30,31 +30,31 @@ void Datastructure::add(const string& ID, const string& location,
 
         return;
 
-    //Jos laatikossa on alkioita
+    // Jos laatikossa on alkioita
     } else {
 
-        //Kaydaan laatikko lapi ja etsitaan oikeaa tuotetta
+        // Kaydaan laatikko lapi ja etsitaan oikeaa tuotetta
         Tuote* ptr = tietokanta[index];
         while (ptr->next != NULL){
 
-            //Jos tuote on oikea, lisataan tavaraa
+            // Jos tuote on oikea, lisataan tavaraa
             if (ptr->ID == ID){
                 ptr->amount += amount;
                 return;
 
-            //Muuten jatketaan eteenpain viimeiseen alkioon asti
+            // Muuten jatketaan eteenpain viimeiseen alkioon asti
             } else {
                 ptr = ptr->next;
             }
         }
 
-        //Jos tuote on listalla viimeisena, lisataan tavaraa
+        // Jos tuote on listalla viimeisena, lisataan tavaraa
         if (ptr->ID == ID){
             ptr->amount += amount;
             return;
 
         } else {
-            //Jos ei loydy listalta, lisataan uusi tuote
+            // Jos ei loydy listalta, lisataan uusi tuote
             Tuote* uusi = new Tuote;
             uusi->ID = ID;
             uusi->location = location;
@@ -71,49 +71,56 @@ void Datastructure::add(const string& ID, const string& location,
 // Removes candies from the datastructure
 void Datastructure::substract(const string& ID, unsigned int amount){
 
-    //Etsitaan oikea laatikko ID:n perusteella
+    // Etsitaan oikea laatikko ID:n perusteella
     int index = hash(ID);
     Tuote* ptr = tietokanta[index];
     Tuote* P1 = tietokanta[index];
 
-    //Kaydaan laatikko lapi, etsitaan oikea tuote ja vahennetaan varastosta
+    // Kaydaan laatikko lapi, etsitaan oikea tuote
+    // ja vahennetaan varastosta
     while(ptr != NULL){
 
-        //Kun oikea tuote loytyy
+        // Kun oikea tuote loytyy
         if (ptr->ID == ID){
 
-            //Jos tuotetta varastossa on liian vahan
+            // Jos tuotetta varastossa on liian vahan
             if (ptr->amount < amount){
                 cout << EI_VARASTOA << endl;
-                cout << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
+                cout << "Saldo: " << ptr->amount
+                     << " Hylly: " << ptr->location << endl;
                 return;
 
-            //Jos varastossa on enemman kuin halutaan poistaa
+            // Jos varastossa on enemman kuin halutaan poistaa
             } else if (ptr->amount > amount){
                 ptr->amount -= amount;
-                cout << "Saldo: " << ptr->amount << " Hylly: " << ptr->location << endl;
+                cout << "Saldo: " << ptr->amount
+                     << " Hylly: " << ptr->location << endl;
                 return;
 
-            //Jos varasto tyhjenee, poistetaan tuote kokonaan
+            // Jos varasto tyhjenee, poistetaan tuote kokonaan
             } else if (ptr->amount == amount){
 
-                //Jos tuote on ensimmainen ja viimeinen laatikossa
+                // Jos tuote on ensimmainen ja viimeinen laatikossa
                 if (ptr == tietokanta[index] && ptr->next == NULL){
-                    cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
+                    cout << "Saldo: " << "0"
+                         << " Hylly: " << ptr->location << endl;
                     tietokanta[index] = NULL;
                     delete ptr;
                     return;
 
-                //Jos tuote on ensimmainen, muttei viimeinen laatikossa
+                // Jos tuote on ensimmainen, muttei viimeinen laatikossa
                 } else if (ptr == tietokanta[index]){
-                    cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
+                    cout << "Saldo: " << "0"
+                         << " Hylly: " << ptr->location << endl;
                     tietokanta[index] = ptr->next;
                     delete ptr;
                     return;
 
-                //Jos edelliset eivat pade, niin poistetaan tuote laatikosta
+                // Jos edelliset eivat pade,
+                // niin poistetaan tuote laatikosta
                 } else {
-                    cout << "Saldo: " << "0" << " Hylly: " << ptr->location << endl;
+                    cout << "Saldo: " << "0"
+                         << " Hylly: " << ptr->location << endl;
                     P1->next = ptr->next;
                     delete ptr;
                     return;
@@ -121,14 +128,14 @@ void Datastructure::substract(const string& ID, unsigned int amount){
             }
 
         } else {
-            //Jos ei ollut oikea, siirrytaan seuraavaan
+            // Jos ei ollut oikea, siirrytaan seuraavaan
             P1 = ptr;
             ptr = ptr->next;
 
         }
     }
 
-    //Jos ei loydy varastosta, niin tulostellaan
+    // Jos ei loydy varastosta, niin tulostellaan
     cout << EI_SAATAVILLA << endl;
     return;
 }
@@ -136,14 +143,15 @@ void Datastructure::substract(const string& ID, unsigned int amount){
 // Finds candy and prints its status
 void Datastructure::find(const string& ID) const{
 
-    //Etsitaan oikea laatikko ID:n perusteella
+    // Etsitaan oikea laatikko ID:n perusteella
     int index = hash(ID);
     Tuote* ptr = tietokanta[index];
 
-    //Kaydaan laatikko lapi, etsitaan oikea tuote ja tulostetaan tiedot
+    // Kaydaan laatikko lapi, etsitaan oikea tuote ja tulostetaan tiedot
     while(ptr != NULL){
         if (ptr->ID == ID){
-            cout << ptr->name << " " << ptr->amount << " " << ptr->location << endl;
+            cout << ptr->name << " " << ptr->amount
+                 << " " << ptr->location << endl;
             return;
 
         } else {
@@ -151,7 +159,7 @@ void Datastructure::find(const string& ID) const{
         }
     }
 
-    //Jos ei loydy varastosta, niin tulostellaan
+    // Jos ei loydy varastosta, niin tulostellaan
     cout << EI_SAATAVILLA << endl;
     return;
 }
@@ -194,28 +202,42 @@ void Datastructure::save_to_file(const string& filename) const{
     ofstream tulostus(filename);
     Tuote* ptr = tietokanta[0];
 
+    // Kaydaan lapi tietokannan laatikot yksitellen
     for (int i = 0; i < SIZE; i++){
         ptr = tietokanta[i];
 
+        // Jos laatikossa on tuote/tuotteita
         while (ptr != NULL){
+
+            // Tulostetaan tuotteen tiedot tiedostoon
             tulostus << ptr->ID << ';'
                      << ptr->amount << ';'
                      << ptr->location << ';'
                      << ptr->name << endl;
+
+            // Siirrytaan laatikon seuraavaan tuotteeseen
             ptr = ptr->next;
         }
     }
 }
 
-//Funktio generoi ID:n perusteella numeron valilta 0-3000
-//Numero kertoo laatikon, johon tuote kuuluu
+// Funktio generoi ID:n perusteella numeron
+// Funktion paluuarvo kertoo laatikon, johon tuote kuuluu
 int Datastructure::hash(const string& ID) const{
 
+    // Valitaan alkuluku paluuarvon lahtoarvoksi
     unsigned int paluuarvo = 9209;
+
+    // Lasketaan ID:n ASCII-arvo,
+    // lisataan se erilaisilla painotuksilla paluuarvoon
     for (unsigned int i = 0; i < ID.length(); ++i){
-        paluuarvo = (paluuarvo * ID[i] + ID[i]*ID[i]*ID[i] + ID[i]*ID[i] + ID[i]);
+        int n = ID[i];
+        paluuarvo = (paluuarvo * n
+                     + n*n*n
+                     + n*n
+                     + n);
     }
 
-    //Palautetaan tehtaillun numeron ja taulukon koon jakojaannos
+    // Palautetaan tehtaillun numeron ja taulukon koon jakojaannos
     return (paluuarvo) % SIZE;
 }
