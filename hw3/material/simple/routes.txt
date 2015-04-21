@@ -1,0 +1,7 @@
+route_id,route_short_name,route_long_name,route_type
+10,10,Kaukajärvi - Keskustori,3
+1,1,Vatiala - Pirkkala,3
+13,13,Hermia - Lamminpää - Ylöjärvi,3
+91,91,Sorila - Aitoniemi,3
+65,65,Pirkkala - Hervanta,3
+4,4,Hervanta - Keskustori,3
