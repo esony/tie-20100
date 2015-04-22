@@ -1,0 +1,12 @@
+INCLUDEPATH += $$PWD/src
+SRC_DIR = $$PWD
+
+QMAKE_CXXFLAGS_RELEASE-=-O2
+QMAKE_CXXFLAGS_DEBUG-=-O2
+QMAKE_CXXFLAGS+=-Wall -Wextra -Werror -pedantic -O0 -fnon-call-exceptions
+
+CONFIG += c++11
+QMAKE_CXXFLAGS += -std=c++11
+
+DEFINES+=TESTMATERIALDIR=\\\"\"$$PWD/material/\"\\\"
+DEFINES+=_MEMORYLIMIT=128
