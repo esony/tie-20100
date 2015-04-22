@@ -23,7 +23,7 @@ const std::string QUIT = "Q";
 
 const std::string PROMPT = "> ";
 
-const string LISENSSI = "Sisältää Tampereen kaupungin aineistoa:";
+const std::string LISENSSI = "Sisältää Tampereen kaupungin aineistoa:";
 
 void printLicence(const std::string& directory)
 {
