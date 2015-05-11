@@ -4,6 +4,8 @@
 #define _DATASTRUCTURE_HH_
 
 #include <string>
+#include <deque>
+#include <map>
 
 const std::string EI_LINJAA = "Virhe: Ei linjaa!";
 const std::string VIRHE = "Virhe: Pysäkkiä ei ole!";
@@ -44,6 +46,33 @@ class Datastructure
 
 private:
     // Your implementation here
+
+    struct tripType {
+        std::string trip_id;
+
+        std::string departure;
+        std::string arrival;
+    };
+
+    struct stopType {
+        std::string stop_id;
+        std::string stop_code;
+        std::string stop_name;
+
+        // Yhteydet pysakilta
+        // yhteys[tripType] =
+        std::map<std::string, tripType> yhteys;
+
+    };
+
+    // Kaikki linjat: trip_id ja sita vastaava linjan tunnus route_id,
+    // esim. linja[4361253488] = 10
+    std::map<int, int> linja;
+
+    //Kaikki pysakit
+    //Tallennetaan stop_id avaimen taakse stopType tyyppiin pysakin tiedot
+    std::map<std::string, stopType> Pysakki;
+
 };
 
 #endif
