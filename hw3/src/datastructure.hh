@@ -47,31 +47,65 @@ class Datastructure
 private:
     // Your implementation here
 
+    // Bussiyhteyden tietotyyppi
     struct tripType {
+
+        //Linjan numero
         std::string trip_id;
 
-        std::string departure;
-        std::string arrival;
+        //Lahtopysakki
+        std::string stop_id;
+        // Kohdepysakki
+        std::string next_stop_id;
+
+        // Lahtoaika pysakilta
+        int departure_time;
+        // Sapuminen seuraavalle pysakille
+        int arrival_time;
     };
 
+    // Pysakki-tietotyyppi
     struct stopType {
-        std::string stop_id;
         std::string stop_code;
         std::string stop_name;
 
+        //Saapumisaika pysakille
+        int saapumisaika = -999;
+        //Ja mista pysakilta (edelisen stop_id)
+        std::string prev;
+
         // Yhteydet pysakilta
-        // yhteys[tripType] =
+        // yhteys[trip_id] = tripType
         std::map<std::string, tripType> yhteys;
 
     };
 
-    // Kaikki linjat: trip_id ja sita vastaava linjan tunnus route_id,
-    // esim. linja[4361253488] = 10
-    std::map<int, int> linja;
+    // Oma tietotyyppi pysahdyksille
+    struct stopTimeType {
+        std::string trip_id;
+        int departure_time;
+        int arrival_time;
+        std::string stop_id;
+        int stop_sequence;
+    };
 
-    //Kaikki pysakit
-    //Tallennetaan stop_id avaimen taakse stopType tyyppiin pysakin tiedot
+    void luePysakit(const std::string& directory);
+    void lueYhteydet(const std::string& directory);
+    void lueVuoronumerot(const std::string& directory);
+    void Graph();
+
+    // Kaikki pysakit tallennetaan omaan mappiin
+    // Tallennetaan stop_id avaimen taakse stopType tyyppiin pysakin tiedot
+    // Pysakki[stop_id] = stopType
     std::map<std::string, stopType> Pysakki;
+
+    // Tallennetaan kaikki pysahdysajat omaan dequeen
+    std::deque<stopTimeType> StopTime;
+
+    // Tallennetaan kaikki vuorot mappiin
+    // Avaimena trip_id, arvona route_id
+    std::map<std::string, std::string> Vuoro;
+    int Linjoja = 0;
 
 };
 
