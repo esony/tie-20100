@@ -21,7 +21,7 @@ class Datastructure
     // N-komento. Tulostaa reitin pysäkkeinen, joka on ensimmäisenä perillä
     // stop_id2:ssa.
     void routeSearch(const std::string& time, const std::string& stop_id1,
-                    const std::string& stop_id2 ) const;
+                    const std::string& stop_id2 );
 
     // B-komento. Tulostaa pysäkin kautta kulkevat reitit
     void routesFromStop(const std::string& stop_id) const;
@@ -69,11 +69,6 @@ private:
         std::string stop_code;
         std::string stop_name;
 
-        //Saapumisaika pysakille
-        int saapumisaika = -999;
-        //Ja mista pysakilta (edelisen stop_id)
-        std::string prev;
-
         // Yhteydet pysakilta
         // yhteys[trip_id] = tripType
         std::map<std::string, tripType> yhteys;
@@ -89,10 +84,17 @@ private:
         int stop_sequence;
     };
 
+    struct routeType {
+        std::string route_id;
+        int departure_time;
+    };
+
     void luePysakit(const std::string& directory);
     void lueYhteydet(const std::string& directory);
     void lueVuoronumerot(const std::string& directory);
     void Graph();
+    int sekunneiksi (const std::string& line);
+    void algorithm(int time, std::string stop_id1, std::string stop_id2, tripType yhteys);
 
     // Kaikki pysakit tallennetaan omaan mappiin
     // Tallennetaan stop_id avaimen taakse stopType tyyppiin pysakin tiedot
@@ -105,7 +107,15 @@ private:
     // Tallennetaan kaikki vuorot mappiin
     // Avaimena trip_id, arvona route_id
     std::map<std::string, std::string> Vuoro;
+
+    //Joku toteutus tarkastelemaan, ettei saman linjan kaikkia vuoroja kayda lapi
+    // Tarkastettu_linja[stop_id] = tripType
+    std::map<std::string, routeType> Tarkastettu_linja;
+
     int Linjoja = 0;
+    bool reitti_loytyi = false;
+
+    std::map<std::string, tripType> Reitti;
 
 };
 

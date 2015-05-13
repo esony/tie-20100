@@ -1,32 +1,4 @@
-/*
- *
- *
- */
-
-/*
-
- * Pysakit
- * stops.txt
- *
- * stop_id,     stop_code,  stop_name,      stop_lat, stop_lon
- * 4078,        4078,       Kaukajärvi,     61.47075, 23.88934
-
-
- * Pysahtymisajat pysakeilla
- * stop_times.txt
- *
- * trip_id,     arrival_time,   departure_time,     stop_id,    stop_sequence
- * 4361253488,  16:50:00,       16:50:00,           4078,       1
-
-
- * Matkat
- * trips.txt
- *
- * route_id,    service_id,         trip_id,    trip_headsign,  direction_id,   shape_id
- * 10,          TAL_ARKI_K5_2015,   4361253488, Keskustori,     0,              1244140780008
-
- */
-
+//Bussiyhteyshakusoftan tietokanta- ja algoritmitoteutus
 
 #include "datastructure.hh"
 #include <fstream>
@@ -49,17 +21,215 @@ Datastructure::~Datastructure(){
 // N-komento. Tulostaa reitin pysäkkeinen, joka on ensimmäisenä perillä
 // stop_id2:ssa.
 void Datastructure::routeSearch(const string& time, const string& stop_id1,
-                const string& stop_id2 ) const{
-    string time2;
+                const string& stop_id2 ){
 
     if (Pysakki.find(stop_id1) == Pysakki.end() ||
         Pysakki.find(stop_id2) == Pysakki.end()){
 
         cout << VIRHE << endl;
         return;
+
+    } else if (stop_id1 == stop_id2){
+        cout << EI_LINJAA << endl;
+        return;
+
+    } else {
+
+
+        Reitti.clear();
+        reitti_loytyi = false;
+        Tarkastettu_linja.clear();
+
+        int aika = sekunneiksi(time);
+        tripType yhteys;
+        yhteys.arrival_time = aika;
+        algorithm(aika, stop_id1, stop_id2, yhteys);
+        if (!reitti_loytyi){
+            cout << EI_LINJAA << endl;
+
+            Reitti.clear();
+            reitti_loytyi = false;
+            Tarkastettu_linja.clear();
+
+        } else {
+//            cout << "Reitti loytyi!!!" << endl;
+            string pysakki = stop_id2;
+            deque <tripType> path;
+
+            while (pysakki != stop_id1){
+                path.push_front(Reitti.find(pysakki)->second);
+                pysakki = Reitti.find(pysakki)->second.stop_id;
+            }
+
+            unsigned int i = 0;
+
+            //Virhetarkastelu jos taytyy "vaihtaa" samaan linjaan
+            while (i + 1 < path.size()){
+                if (Vuoro.find(path.at(i).trip_id)->second
+                    == Vuoro.find(path.at(i + 1).trip_id)->second
+                    && path.at(i).arrival_time != path.at(i + 1).departure_time){
+
+                    Reitti.clear();
+                    reitti_loytyi = false;
+                    Tarkastettu_linja.clear();
+
+                    cout << EI_LINJAA << endl;
+                    return;
+                }
+                ++i;
+            }
+
+
+            string numero;
+            int tunnit;
+            int minuutit;
+            int aika;
+
+            unsigned int n = 0;
+            i = 0;
+            while (i < path.size()) {
+
+                if (Vuoro.find(path.at(i).trip_id)->second
+                    != Vuoro.find(path.at(n).trip_id)->second){
+
+                    numero = Vuoro.find(path.at(n).trip_id)->second;
+                    aika = path.at(n).arrival_time;
+                    minuutit = aika / 60;
+                    tunnit = minuutit / 60;
+                    minuutit = minuutit % 60;
+
+                    cout << "Bussi " << numero << ": ";
+                    if (tunnit < 10) {
+                        cout << "0" << tunnit << ":";
+                    } else {
+                        cout << tunnit << ":";
+                    }
+                    if (minuutit < 10){
+                        cout << "0" << minuutit;
+                    } else {
+                        cout << minuutit;
+                    }
+
+                    cout << " " << path.at(n).next_stop_id
+                         << ", " << Pysakki.find(path.at(n).next_stop_id)->second.stop_name << endl;
+
+                }
+
+                numero = Vuoro.find(path.at(i).trip_id)->second;
+                aika = path.at(i).departure_time;
+                minuutit = aika / 60;
+                tunnit = minuutit / 60;
+                minuutit = minuutit % 60;
+
+                cout << "Bussi " << numero << ": ";
+                if (tunnit < 10) {
+                    cout << "0" << tunnit << ":";
+                } else {
+                    cout << tunnit << ":";
+                }
+                if (minuutit < 10){
+                    cout << "0" << minuutit;
+                } else {
+                    cout << minuutit;
+                }
+
+                cout << " " << path.at(i).stop_id
+                     << ", " << Pysakki.find(path.at(i).stop_id)->second.stop_name << endl;
+
+
+
+
+                n = i;
+                ++i;
+            }
+
+            --i;
+
+            numero = Vuoro.find(path.at(i).trip_id)->second;
+            aika = path.at(i).arrival_time;
+            minuutit = aika / 60;
+            tunnit = minuutit / 60;
+            minuutit = minuutit % 60;
+
+            cout << "Bussi " << numero << ": ";
+            if (tunnit < 10) {
+                cout << "0" << tunnit << ":";
+            } else {
+                cout << tunnit << ":";
+            }
+            if (minuutit < 10){
+                cout << "0" << minuutit;
+            } else {
+                cout << minuutit;
+            }
+
+            cout << " " << path.at(i).next_stop_id
+                 << ", " << Pysakki.find(path.at(i).next_stop_id)->second.stop_name << endl;
+
+        }
+
+        Reitti.clear();
+        reitti_loytyi = false;
+        Tarkastettu_linja.clear();
+        return;
     }
-    time2 = time;
-    cout << EI_LINJAA << endl;
+}
+
+void Datastructure::algorithm(int time, string stop_id1, string stop_id2, tripType yhteys){
+
+    //Iteraattori pysakille
+    map<string, stopType>::const_iterator stop_iter;
+    stop_iter = Pysakki.find( stop_id1 );
+
+    //Iteraattori pysakin linjoille
+    map<string, tripType>::const_iterator trip_iter;
+    trip_iter = stop_iter->second.yhteys.begin();
+
+    //Jos pysakille saavutaan aiemmin, kuin aiemmilla yrityksilla,
+    //tallennetaan saapumistiedot
+    if (time < Reitti.find(stop_id1)->second.arrival_time){
+        Reitti[stop_id1] = yhteys;
+    } else {
+        return;
+    }
+
+    //Jos pysakki on paamaara, tallennetaan saapumisaika
+    if (stop_id1 == stop_id2){
+        reitti_loytyi = true;
+        return;
+    }
+
+    //Kaydaan kaikki pysakin yhteydet lapi
+    while (trip_iter != stop_iter->second.yhteys.end()){
+
+        //Ohitetaan kaikki ennen pysakille saapumista lahtevat yhteydet
+        if  (trip_iter->second.departure_time < time){
+            ++trip_iter;
+            continue;
+        }
+        if (Tarkastettu_linja.find(stop_id1) != Tarkastettu_linja.end()
+                && Tarkastettu_linja.find(stop_id1)->second.route_id
+                == Vuoro.find(trip_iter->second.trip_id)->second
+                && Tarkastettu_linja.find(stop_id1)->second.departure_time
+                < trip_iter->second.departure_time){
+
+            ++trip_iter;
+            continue;
+
+        //Siirrytaan seuraavan yhteyden paassa olevalle pysakille
+        } else {
+            Tarkastettu_linja[stop_id1].route_id = Vuoro.find(trip_iter->second.trip_id)->second;
+            Tarkastettu_linja[stop_id1].departure_time = trip_iter->second.departure_time;
+
+            stop_id1 = trip_iter->second.next_stop_id;
+            time = trip_iter->second.arrival_time;
+            yhteys = trip_iter->second;
+//            cout << "From " << trip_iter->second.stop_id << " to " << trip_iter->second.next_stop_id << endl;
+            algorithm(time, stop_id1, stop_id2, yhteys);
+        }
+
+        ++trip_iter;
+    }
 }
 
 
@@ -261,7 +431,7 @@ void Datastructure::lueYhteydet(const string& directory){
     } else {
         int arrival_time;
         int departure_time;
-        int aika;
+
         string tmp;
         int stop_sequence;
         string trip_id;
@@ -278,39 +448,13 @@ void Datastructure::lueYhteydet(const string& directory){
 
             getline(line_stream, trip_id, ',');
 
-            //Saapumisajan tunnit, muutetaan sekunneiksi
-            getline(line_stream, tmp, ':');
-            istringstream (tmp) >> arrival_time;
-            arrival_time = arrival_time * 3600;
-
-            //Saapumisajan minuutit, muutetaan sekunneiksi
-            getline(line_stream, tmp, ':');
-            istringstream (tmp) >> aika;
-            aika = aika * 60;
-            arrival_time += aika;
-
-            //Saapumisajan sekunnit
+            //Saapumisaika
             getline(line_stream, tmp, ',');
-            istringstream (tmp) >> aika;
-            arrival_time += aika;
+            arrival_time = sekunneiksi(tmp);
 
-
-
-            //Lahtoajan tunnit, muutetaan sekunneiksi
-            getline(line_stream, tmp, ':');
-            istringstream (tmp) >> departure_time;
-            departure_time = departure_time * 3600;
-
-            //Saapumisajan minuutit, muutetaan sekunneiksi
-            getline(line_stream, tmp, ':');
-            istringstream (tmp) >> aika;
-            aika = aika * 60;
-            departure_time += aika;
-
-            //Saapumisajan sekunnit
+            //Lahtoaika
             getline(line_stream, tmp, ',');
-            istringstream (tmp) >> aika;
-            departure_time += aika;
+            departure_time = sekunneiksi(tmp);
 
             getline(line_stream, stop_id, ',');
             getline(line_stream, tmp);
@@ -414,6 +558,7 @@ void Datastructure::Graph(){
             next_stop_id = StopTime.at(n).stop_id;
 
             //Tallennetaan arvot oikean pysakin tietoihin
+            Pysakki[stop_id].yhteys[trip_id].trip_id = trip_id;
             Pysakki[stop_id].yhteys[trip_id].stop_id = stop_id;
             Pysakki[stop_id].yhteys[trip_id].departure_time = departure_time;
             Pysakki[stop_id].yhteys[trip_id].arrival_time = arrival_time;
@@ -428,4 +573,30 @@ void Datastructure::Graph(){
         ++i;
         ++n;
     }
+}
+
+int Datastructure::sekunneiksi (const string& line){
+
+    int aika;
+    int paluuarvo;
+    string tmp;
+    istringstream line_stream( line );
+
+    //Tunnit sekunneiksi
+    getline(line_stream, tmp, ':');
+    istringstream (tmp) >> paluuarvo;
+    paluuarvo = paluuarvo * 3600;
+
+    //Minuutit sekunneiksi
+    getline(line_stream, tmp, ':');
+    istringstream (tmp) >> aika;
+    aika = aika * 60;
+    paluuarvo += aika;
+
+    //Saapumisajan sekunnit
+    getline(line_stream, tmp, ',');
+    istringstream (tmp) >> aika;
+    paluuarvo += aika;
+
+    return paluuarvo;
 }
