@@ -41,9 +41,9 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
         Tarkastettu_linja.clear();
 
         int aika = sekunneiksi(time);
-        tripType yhteys;
-        yhteys.arrival_time = aika;
-        algorithm(aika, stop_id1, stop_id2, yhteys);
+//        tripType yhteys;
+//        yhteys.arrival_time = aika;
+        algorithm2(aika, stop_id1, stop_id2);
         if (!reitti_loytyi){
             cout << EI_LINJAA << endl;
 
@@ -175,6 +175,8 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
     }
 }
 
+//Rekursiivinen algoritmi joka siirtyy aina seuraavalle pysakille ja tutkii sen linjat
+//Palaa takaisin joskus kun kaikki linjat loppuu
 void Datastructure::algorithm(int time, string stop_id1, string stop_id2, tripType yhteys){
 
     //Iteraattori pysakille
@@ -208,18 +210,23 @@ void Datastructure::algorithm(int time, string stop_id1, string stop_id2, tripTy
             continue;
         }
         if (Tarkastettu_linja.find(stop_id1) != Tarkastettu_linja.end()
+
                 && Tarkastettu_linja.find(stop_id1)->second.route_id
                 == Vuoro.find(trip_iter->second.trip_id)->second
+
                 && Tarkastettu_linja.find(stop_id1)->second.departure_time
-                < trip_iter->second.departure_time){
+                < trip_iter->second.departure_time)
+        {
 
             ++trip_iter;
             continue;
 
         //Siirrytaan seuraavan yhteyden paassa olevalle pysakille
         } else {
-            Tarkastettu_linja[stop_id1].route_id = Vuoro.find(trip_iter->second.trip_id)->second;
-            Tarkastettu_linja[stop_id1].departure_time = trip_iter->second.departure_time;
+            Tarkastettu_linja[stop_id1].route_id
+                    = Vuoro.find(trip_iter->second.trip_id)->second;
+            Tarkastettu_linja[stop_id1].departure_time
+                    = trip_iter->second.departure_time;
 
             stop_id1 = trip_iter->second.next_stop_id;
             time = trip_iter->second.arrival_time;
@@ -230,6 +237,76 @@ void Datastructure::algorithm(int time, string stop_id1, string stop_id2, tripTy
 
         ++trip_iter;
     }
+}
+
+// Kokeillaan taysin toisenlaista algoritmia
+
+void Datastructure::algorithm2(int time, string stop_id1, string stop_id2){
+    //Iteraattori pysakille
+    map<string, stopType>::const_iterator stop_iter;
+    stop_iter = Pysakki.find( stop_id1 );
+
+    //Iteraattori pysakin linjoille
+    map<string, tripType>::const_iterator trip_iter;
+    trip_iter = stop_iter->second.yhteys.begin();
+
+    //Laitetaan lahtopysakki jonoon kasiteltavien listaan
+    deque<inQueue> jono;
+    inQueue seuraava;
+    seuraava.stop_id = stop_id1;
+    seuraava.arrival_time = time;
+    jono.push_back(seuraava);
+
+    //Kaydaan jono loppuun asti, lisataan kaikkien pysakilta
+    //lahtevien yhteyksien seuraavat pysakit jonoon
+    while (!jono.empty()){
+        seuraava = *jono.begin();
+        jono.pop_front();
+        stop_iter = Pysakki.find(seuraava.stop_id);
+        trip_iter = stop_iter->second.yhteys.begin();
+
+        //Ei tutkita maaranpaasta lahtevia yhteyksia
+        if (seuraava.stop_id == stop_id2){
+            reitti_loytyi = true;
+            continue;
+        }
+
+        //Kaydaan kaikki pysakilta lahtevat yhteydet lapi vuorotellen
+        while (trip_iter != stop_iter->second.yhteys.end()){
+
+            //Ohitetaan ennen pysakille saapumista lahteneet vuorot
+            if  (trip_iter->second.departure_time < seuraava.arrival_time){
+                ++trip_iter;
+                continue;
+            }
+
+            //Jos seuraavalla pysakille ei ole viela kayty, lisataan listaan
+            if (Reitti.find(trip_iter->second.next_stop_id) == Reitti.end()){
+                inQueue uusi;
+                uusi.stop_id = trip_iter->second.next_stop_id;
+                uusi.arrival_time = trip_iter->second.arrival_time;
+                Reitti[uusi.stop_id] = trip_iter->second;
+                jono.push_back(uusi);
+
+                continue;
+            }
+
+            if (trip_iter->second.arrival_time < Reitti.find(trip_iter->second.next_stop_id)->second.arrival_time){
+                inQueue uusi;
+                uusi.stop_id = trip_iter->second.next_stop_id;
+                uusi.arrival_time = trip_iter->second.arrival_time;
+                Reitti[uusi.stop_id] = trip_iter->second;
+                jono.push_back(uusi);
+
+                continue;
+            }
+
+            ++trip_iter;
+        }
+
+    }
+
+
 }
 
 
@@ -274,7 +351,7 @@ void Datastructure::routesFromStop(const string& stop_id) const{
             ++iter;
         }
 
-        if (linjat.size() == 0){
+        if (linjat.empty()){
             return;
         } else {
             sort(linjat.begin(), linjat.end());

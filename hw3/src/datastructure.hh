@@ -89,12 +89,18 @@ private:
         int departure_time;
     };
 
+    struct inQueue {
+        std::string stop_id;
+        int arrival_time;
+    };
+
     void luePysakit(const std::string& directory);
     void lueYhteydet(const std::string& directory);
     void lueVuoronumerot(const std::string& directory);
     void Graph();
     int sekunneiksi (const std::string& line);
     void algorithm(int time, std::string stop_id1, std::string stop_id2, tripType yhteys);
+    void algorithm2(int time, std::string stop_id1, std::string stop_id2);
 
     // Kaikki pysakit tallennetaan omaan mappiin
     // Tallennetaan stop_id avaimen taakse stopType tyyppiin pysakin tiedot
