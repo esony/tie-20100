@@ -9,41 +9,40 @@
 using namespace std;
 
 Datastructure::Datastructure(){
-
 }
 
 Datastructure::~Datastructure(){
-
 }
-
-
 
 // N-komento. Tulostaa reitin pysäkkeinen, joka on ensimmäisenä perillä
 // stop_id2:ssa.
 void Datastructure::routeSearch(const string& time, const string& stop_id1,
                 const string& stop_id2 ){
 
+    //Jos lahto tai paatepysakkia ei ole, cout virhe
     if (Pysakki.find(stop_id1) == Pysakki.end() ||
         Pysakki.find(stop_id2) == Pysakki.end()){
 
         cout << VIRHE << endl;
         return;
 
+    //Jos lahto ja paate on sama
     } else if (stop_id1 == stop_id2){
         cout << EI_LINJAA << endl;
         return;
 
     } else {
 
-
         Reitti.clear();
         reitti_loytyi = false;
         Tarkastettu_linja.clear();
 
         int aika = sekunneiksi(time);
-//        tripType yhteys;
-//        yhteys.arrival_time = aika;
+
+        //Annetaan hakuehdot agoritmin pureskeltavaksi
         algorithm2(aika, stop_id1, stop_id2);
+
+        //Jos reittia ei loytynyt
         if (!reitti_loytyi){
             cout << EI_LINJAA << endl;
 
@@ -51,8 +50,11 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
             reitti_loytyi = false;
             Tarkastettu_linja.clear();
 
+        //Jos reitti loytyi
         } else {
-//            cout << "Reitti loytyi!!!" << endl;
+
+            //Tallennetaan oikea reitti omaan dequeen
+            //tulostusta ja virhetarkastelua varten
             string pysakki = stop_id2;
             deque <tripType> path;
 
@@ -67,7 +69,8 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
             while (i + 1 < path.size()){
                 if (Vuoro.find(path.at(i).trip_id)->second
                     == Vuoro.find(path.at(i + 1).trip_id)->second
-                    && path.at(i).arrival_time != path.at(i + 1).departure_time){
+                    && path.at(i).arrival_time
+                        != path.at(i + 1).departure_time){
 
                     Reitti.clear();
                     reitti_loytyi = false;
@@ -79,7 +82,7 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
                 ++i;
             }
 
-
+            //Reitin tulostaminen
             string numero;
             int tunnit;
             int minuutit;
@@ -89,6 +92,8 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
             i = 0;
             while (i < path.size()) {
 
+                //Jos tarvitsee vaihtaa bussia,
+                //tulostetaan vaihtopysakin saapumisaika
                 if (Vuoro.find(path.at(i).trip_id)->second
                     != Vuoro.find(path.at(n).trip_id)->second){
 
@@ -110,11 +115,13 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
                         cout << minuutit;
                     }
 
-                    cout << " " << path.at(n).next_stop_id
-                         << ", " << Pysakki.find(path.at(n).next_stop_id)->second.stop_name << endl;
-
+                    cout << " " << path.at(n).next_stop_id << ", "
+                         << Pysakki.find(path.at(n).next_stop_id)
+                            ->second.stop_name
+                         << endl;
                 }
 
+                //Tulostetaan lahdon tiedot
                 numero = Vuoro.find(path.at(i).trip_id)->second;
                 aika = path.at(i).departure_time;
                 minuutit = aika / 60;
@@ -134,14 +141,14 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
                 }
 
                 cout << " " << path.at(i).stop_id
-                     << ", " << Pysakki.find(path.at(i).stop_id)->second.stop_name << endl;
-
-
-
+                     << ", " << Pysakki.find(path.at(i).stop_id)
+                        ->second.stop_name << endl;
 
                 n = i;
                 ++i;
             }
+
+            //Ja viimeiselle pysakille saapuminen
 
             --i;
 
@@ -164,10 +171,13 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
             }
 
             cout << " " << path.at(i).next_stop_id
-                 << ", " << Pysakki.find(path.at(i).next_stop_id)->second.stop_name << endl;
+                 << ", "
+                 << Pysakki.find(path.at(i).next_stop_id)->second.stop_name
+                 << endl;
 
         }
 
+        //Tyhjennetaan reitin selvittamisessa kaytetyt tietorakenteet
         Reitti.clear();
         reitti_loytyi = false;
         Tarkastettu_linja.clear();
@@ -175,72 +185,9 @@ void Datastructure::routeSearch(const string& time, const string& stop_id1,
     }
 }
 
-//Rekursiivinen algoritmi joka siirtyy aina seuraavalle pysakille ja tutkii sen linjat
-//Palaa takaisin joskus kun kaikki linjat loppuu
-void Datastructure::algorithm(int time, string stop_id1, string stop_id2, tripType yhteys){
-
-    //Iteraattori pysakille
-    map<string, stopType>::const_iterator stop_iter;
-    stop_iter = Pysakki.find( stop_id1 );
-
-    //Iteraattori pysakin linjoille
-    map<string, tripType>::const_iterator trip_iter;
-    trip_iter = stop_iter->second.yhteys.begin();
-
-    //Jos pysakille saavutaan aiemmin, kuin aiemmilla yrityksilla,
-    //tallennetaan saapumistiedot
-    if (time < Reitti.find(stop_id1)->second.arrival_time){
-        Reitti[stop_id1] = yhteys;
-    } else {
-        return;
-    }
-
-    //Jos pysakki on paamaara, tallennetaan saapumisaika
-    if (stop_id1 == stop_id2){
-        reitti_loytyi = true;
-        return;
-    }
-
-    //Kaydaan kaikki pysakin yhteydet lapi
-    while (trip_iter != stop_iter->second.yhteys.end()){
-
-        //Ohitetaan kaikki ennen pysakille saapumista lahtevat yhteydet
-        if  (trip_iter->second.departure_time < time){
-            ++trip_iter;
-            continue;
-        }
-        if (Tarkastettu_linja.find(stop_id1) != Tarkastettu_linja.end()
-
-                && Tarkastettu_linja.find(stop_id1)->second.route_id
-                == Vuoro.find(trip_iter->second.trip_id)->second
-
-                && Tarkastettu_linja.find(stop_id1)->second.departure_time
-                < trip_iter->second.departure_time)
-        {
-
-            ++trip_iter;
-            continue;
-
-        //Siirrytaan seuraavan yhteyden paassa olevalle pysakille
-        } else {
-            Tarkastettu_linja[stop_id1].route_id
-                    = Vuoro.find(trip_iter->second.trip_id)->second;
-            Tarkastettu_linja[stop_id1].departure_time
-                    = trip_iter->second.departure_time;
-
-            stop_id1 = trip_iter->second.next_stop_id;
-            time = trip_iter->second.arrival_time;
-            yhteys = trip_iter->second;
-//            cout << "From " << trip_iter->second.stop_id << " to " << trip_iter->second.next_stop_id << endl;
-            algorithm(time, stop_id1, stop_id2, yhteys);
-        }
-
-        ++trip_iter;
-    }
-}
 
 // Kokeillaan taysin toisenlaista algoritmia
-
+// Aikataulullisesti lyhimman reitin etsiva algoritmi
 void Datastructure::algorithm2(int time, string stop_id1, string stop_id2){
     //Iteraattori pysakille
     map<string, stopType>::const_iterator stop_iter;
@@ -291,7 +238,13 @@ void Datastructure::algorithm2(int time, string stop_id1, string stop_id2){
                 continue;
             }
 
-            if (trip_iter->second.arrival_time < Reitti.find(trip_iter->second.next_stop_id)->second.arrival_time){
+            //Jos saapumisaika pysakille on aiemmin,
+            //kuin edellinen loydetty reitti, tallennetaan
+            //uudet tiedot
+            if (trip_iter->second.arrival_time <
+                Reitti.find(trip_iter->second.next_stop_id)
+                    ->second.arrival_time){
+
                 inQueue uusi;
                 uusi.stop_id = trip_iter->second.next_stop_id;
                 uusi.arrival_time = trip_iter->second.arrival_time;
@@ -303,13 +256,8 @@ void Datastructure::algorithm2(int time, string stop_id1, string stop_id2){
 
             ++trip_iter;
         }
-
     }
-
-
 }
-
-
 
 // B-komento. Tulostaa pysäkin kautta kulkevat reitit
 void Datastructure::routesFromStop(const string& stop_id) const{
@@ -321,16 +269,12 @@ void Datastructure::routesFromStop(const string& stop_id) const{
         return;
     } else {
 
-
         map<string, stopType>::const_iterator it;
         it = Pysakki.find( stop_id );
-
         map<string, tripType>::const_iterator iter;
-//        iter = Pysakki.find(stop_id)->second.yhteys.begin();
         iter = it->second.yhteys.begin();
 
         string trip_id;
-
         deque<string> linjat;
 
         while (iter != it->second.yhteys.end()){
@@ -341,13 +285,11 @@ void Datastructure::routesFromStop(const string& stop_id) const{
                 cout << EI_LINJAA << endl;
                 return;
 
-            } else if (find(linjat.begin(),
-                            linjat.end(),
-                            Vuoro.find(trip_id)->second ) == linjat.end()){
+            } else if (find(linjat.begin(), linjat.end(),
+                       Vuoro.find(trip_id)->second ) == linjat.end()){
 
                 linjat.push_back(Vuoro.find(trip_id)->second);
             }
-
             ++iter;
         }
 
@@ -363,7 +305,6 @@ void Datastructure::routesFromStop(const string& stop_id) const{
                 ++i;
             }
             cout << endl;
-
         }
     }
 }
@@ -491,7 +432,6 @@ void Datastructure::luePysakit(const string& directory){
 
     }
 }
-
 
 // Funktio lukee tiedostosta kaikki pysahdykset ja niiden tiedot
 void Datastructure::lueYhteydet(const string& directory){
@@ -621,7 +561,8 @@ void Datastructure::Graph(){
 
     while (n < StopTime.size()){
 
-        while (n < StopTime.size() && StopTime.at(i).trip_id == StopTime.at(n).trip_id){
+        while (n < StopTime.size() &&
+               StopTime.at(i).trip_id == StopTime.at(n).trip_id){
 
             //Vuoron ja pysakin numero
             trip_id = StopTime.at(i).trip_id;

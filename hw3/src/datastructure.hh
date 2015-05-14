@@ -99,7 +99,6 @@ private:
     void lueVuoronumerot(const std::string& directory);
     void Graph();
     int sekunneiksi (const std::string& line);
-    void algorithm(int time, std::string stop_id1, std::string stop_id2, tripType yhteys);
     void algorithm2(int time, std::string stop_id1, std::string stop_id2);
 
     // Kaikki pysakit tallennetaan omaan mappiin
@@ -118,9 +117,11 @@ private:
     // Tarkastettu_linja[stop_id] = tripType
     std::map<std::string, routeType> Tarkastettu_linja;
 
+    //Linjojen kokonaismaara
     int Linjoja = 0;
-    bool reitti_loytyi = false;
 
+    //Tarvittavia muuttujia reitin tallentamiseen
+    bool reitti_loytyi = false;
     std::map<std::string, tripType> Reitti;
 
 };
